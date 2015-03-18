@@ -20,6 +20,10 @@ vector<Ponto> pontos;
 
 #define CONST 1.0f;
 float xx = 0, yy = 0, zz = 0, angle = 0.0f, angle1 = 0.0f;
+float camX = 0, camY, camZ = 5;
+int startX, startY, tracking = 0;
+
+int alpha = 0, beta = 0, r = 5;
 
 void changeSize(int w, int h) {
 	// Prevent a divide by zero, when window is too short
@@ -49,14 +53,14 @@ void renderScene(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glLoadIdentity();
-	gluLookAt(0.0f, -4.0f, 5.0f,
-		0.0, 1.0, 0.0,
+	gluLookAt(camX, camY, camZ,
+		0.0, 0.0, 0.0,
 		0.0f, 1.0f, 0.0f);
 
 	glTranslatef(xx, yy, zz);
 	glRotatef(angle, 0.0f, 1.0f, 0.0f);
 	glRotatef(angle1, 1.0f, 0.0f, 0.0f);
-	
+
 	glBegin(GL_TRIANGLES);
 	for (int i = 0; i<pontos.size(); i++)
 		glVertex3f(pontos[i].x, pontos[i].y, pontos[i].z);
@@ -94,9 +98,73 @@ void specialKeys(int key, int x, int y) {
 }
 
 // Funções de processamento do rato
-void mouseMove(int x, int y) {
-	angle += x / 400;
-	angle1 -= y / 400;
+void processMouseButtons(int button, int state, int xx, int yy)
+{
+	if (state == GLUT_DOWN)  {
+		startX = xx;
+		startY = yy;
+		if (button == GLUT_LEFT_BUTTON)
+			tracking = 1;
+		else if (button == GLUT_RIGHT_BUTTON)
+			tracking = 2;
+		else
+			tracking = 0;
+	}
+	else if (state == GLUT_UP) {
+		if (tracking == 1) {
+			alpha += (xx - startX);
+			beta += (yy - startY);
+		}
+		else if (tracking == 2) {
+
+			r -= yy - startY;
+			if (r < 3)
+				r = 3.0;
+		}
+		tracking = 0;
+	}
+
+
+}
+
+void processMouseMotion(int xx, int yy)
+{
+
+	int deltaX, deltaY;
+	int alphaAux, betaAux;
+	int rAux;
+
+	if (!tracking)
+		return;
+
+	deltaX = xx - startX;
+	deltaY = yy - startY;
+
+	if (tracking == 1) {
+
+
+		alphaAux = alpha + deltaX;
+		betaAux = beta + deltaY;
+
+		if (betaAux > 85.0)
+			betaAux = 85.0;
+		else if (betaAux < -85.0)
+			betaAux = -85.0;
+
+		rAux = r;
+	}
+	else if (tracking == 2) {
+
+		alphaAux = alpha;
+		betaAux = beta;
+		rAux = r - deltaY;
+		if (rAux < 3)
+			rAux = 3;
+	}
+	camX = rAux * sin(alphaAux * 3.14 / 180.0) * cos(betaAux * 3.14 / 180.0);
+	camZ = rAux * cos(alphaAux * 3.14 / 180.0) * cos(betaAux * 3.14 / 180.0);
+	camY = rAux *                          sin(betaAux * 3.14 / 180.0);
+
 }
 
 // Função de processamento do menu
@@ -165,10 +233,13 @@ int main(int argc, char **argv) {
 		glutIdleFunc(renderScene);
 		glutReshapeFunc(changeSize);
 
+		//Teclado
 		glutKeyboardFunc(normalkeyboard);
 		glutSpecialFunc(specialKeys);
 
-		glutMotionFunc(mouseMove);
+		//Rato
+		glutMouseFunc(processMouseButtons);
+		glutMotionFunc(processMouseMotion);
 
 		glutCreateMenu(menu);
 		glutAddMenuEntry("GL_FILL", 1);
