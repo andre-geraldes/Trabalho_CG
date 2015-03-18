@@ -1,0 +1,266 @@
+#define _USE_MATH_DEFINES
+
+#include <stdlib.h>
+#include <GL/glut.h>
+#include <math.h>
+#include <fstream>
+#include <iostream>
+
+using namespace std;
+
+#define CONST 1.0f;
+float xx = 0, yy = 0, zz = 0, angle = 0.0f, angle1 = 0.0f;
+int startX, startY, tracking = 0;
+
+int alpha = 0, beta = 0, r = 5;
+
+
+void changeSize(int w, int h) {
+	// Prevent a divide by zero, when window is too short
+	// (you cant make a window with zero width).
+	if (h == 0)
+		h = 1;
+
+	// compute window's aspect ratio 
+	float ratio = w * 1.0 / h;
+
+	// Set the projection matrix as current
+	glMatrixMode(GL_PROJECTION);
+	// Load Identity Matrix
+	glLoadIdentity();
+
+	// Set the viewport to be the entire window
+	glViewport(0, 0, w, h);
+
+	// Set perspective
+	gluPerspective(45.0f, ratio, 1.0f, 1000.0f);
+
+	// return to the model view matrix mode
+	glMatrixMode(GL_MODELVIEW);
+}
+
+
+
+void renderScene(void) {
+
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glLoadIdentity();
+	gluLookAt(0.0f, 1.0f, 5.0f,
+		0.0, 1.0, 0.0,
+		0.0f, 1.0f, 0.0f);
+
+	glTranslatef(xx, yy, zz);
+	glRotatef(angle, 0.0f, 1.0f, 0.0f);
+	glRotatef(angle1, 1.0f, 0.0f, 0.0f);
+	
+
+	float teta = 0; float fi = 0; int raio = 10;
+	int camadasH = 20; int camadasV = 10;
+	float saltoH = M_PI / camadasH;
+	float saltoV = 2 * (M_PI) / camadasV;
+	int i, j;
+	float x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4;
+
+
+	glBegin(GL_TRIANGLES);
+	for (i = 0; i < camadasH; i++){
+		teta = 0;
+
+		for (j = 0; j < camadasV; j++){
+			x1 = raio*sin(fi)*sin(teta);
+			y1 = raio*cos(fi);
+			z1 = raio*sin(fi)*cos(teta);
+
+			x2 = raio*sin(fi + saltoH)*sin(teta + saltoV);
+			y2 = raio*cos(fi + saltoH);
+			z2 = raio*sin(fi + saltoH)*cos(teta + saltoV);
+
+			x3 = raio*sin(fi + saltoH)*sin(teta);
+			y3 = raio*cos(fi + saltoH);
+			z3 = raio*sin(fi + saltoH)* cos(teta);
+
+			x4 = raio*sin(fi)*sin(teta + saltoV);
+			y4 = raio*cos(fi);
+			z4 = raio*sin(fi)*cos(teta + saltoV);
+
+
+			glColor3f(0.0f, 1.0f, 0.0f);
+			glVertex3f(x1, y1, z1);
+			glVertex3f(x2, y2, z2);
+			glVertex3f(x3, y3, z3);
+
+			glVertex3f(x1, y1, z1);
+			glVertex3f(x4, y4, z4);
+			glVertex3f(x2, y2, z2);
+
+			teta += saltoV;
+
+
+		}
+		fi += saltoH;
+	}
+	glEnd();
+
+	/*
+	glBegin(GL_TRIANGLES);
+	for (int i = 0; i<pontos.size(); i++)
+		glVertex3f(pontos[i].x, pontos[i].y, pontos[i].z);
+	glEnd();
+	*/
+
+	glutSwapBuffers();
+}
+
+// Funções de processamento do teclado
+void normalkeyboard(unsigned char tecla, int x, int y) {
+	switch (tecla) {
+	case 'a':
+	case 'A': xx -= CONST; break;
+	case 'd':
+	case 'D': xx += CONST; break;
+	case 'w':
+	case 'W': yy += CONST; break;
+	case 's':
+	case 'S': yy -= CONST; break;
+	case 'e':
+	case 'E': zz -= CONST; break;
+	case 'q':
+	case 'Q': zz += CONST; break;
+	}
+	glutPostRedisplay();
+}
+
+void specialKeys(int key, int x, int y) {
+	switch (key) {
+	case GLUT_KEY_LEFT: angle -= 5.0f; break;
+	case GLUT_KEY_RIGHT: angle += 5.0f; break;
+	case GLUT_KEY_UP: angle1 += 5.0f; break;
+	case GLUT_KEY_DOWN: angle1 -= 5.0f; break;
+	}
+}
+
+/*
+// Funções de processamento do rato
+void processMouseButtons(int button, int state, int xx, int yy)
+{
+	if (state == GLUT_DOWN)  {
+		startX = xx;
+		startY = yy;
+		if (button == GLUT_LEFT_BUTTON)
+			tracking = 1;
+		else if (button == GLUT_RIGHT_BUTTON)
+			tracking = 2;
+		else
+			tracking = 0;
+	}
+	else if (state == GLUT_UP) {
+		if (tracking == 1) {
+			alpha += (xx - startX);
+			beta += (yy - startY);
+		}
+		else if (tracking == 2) {
+
+			r -= yy - startY;
+			if (r < 3)
+				r = 3.0;
+		}
+		tracking = 0;
+	}
+
+
+}
+
+void processMouseMotion(int xx, int yy)
+{
+
+	int deltaX, deltaY;
+	int alphaAux, betaAux;
+	int rAux;
+
+	if (!tracking)
+		return;
+
+	deltaX = xx - startX;
+	deltaY = yy - startY;
+
+	if (tracking == 1) {
+
+
+		alphaAux = alpha + deltaX;
+		betaAux = beta + deltaY;
+
+		if (betaAux > 85.0)
+			betaAux = 85.0;
+		else if (betaAux < -85.0)
+			betaAux = -85.0;
+
+		rAux = r;
+	}
+	else if (tracking == 2) {
+
+		alphaAux = alpha;
+		betaAux = beta;
+		rAux = r - deltaY;
+		if (rAux < 3)
+			rAux = 3;
+	}
+	camX = rAux * sin(alphaAux * 3.14 / 180.0) * cos(betaAux * 3.14 / 180.0);
+	camZ = rAux * cos(alphaAux * 3.14 / 180.0) * cos(betaAux * 3.14 / 180.0);
+	camY = rAux *                          sin(betaAux * 3.14 / 180.0);
+
+}
+*/
+
+// Função de processamento do menu
+void menu(int op) {
+	switch (op) {
+	case 1: glPolygonMode(GL_FRONT, GL_FILL); break;
+	case 2: glPolygonMode(GL_FRONT, GL_LINE); break;
+	case 3: glPolygonMode(GL_FRONT, GL_POINT); break;
+	}
+	glutPostRedisplay();
+}
+
+
+
+void mouseMove(int x, int y) {
+
+	angle += x/400;
+	angle1 -= y/400;
+}
+
+int main(int argc, char **argv) {
+	//if (argc>1) {
+		glutInit(&argc, argv);
+		glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
+		glutInitWindowPosition(200, 200);
+		glutInitWindowSize(800, 800);
+		glutCreateWindow("TP@CG");
+
+		//-------------------------readXML(argv[1]);
+
+		glutDisplayFunc(renderScene);
+		glutIdleFunc(renderScene);
+		glutReshapeFunc(changeSize);
+
+		glutKeyboardFunc(normalkeyboard);
+		glutSpecialFunc(specialKeys);
+
+		glutMotionFunc(mouseMove);
+
+		glutCreateMenu(menu);
+		glutAddMenuEntry("GL_FILL", 1);
+		glutAddMenuEntry("GL_LINE", 2);
+		glutAddMenuEntry("GL_POINT", 3);
+		glutAttachMenu(GLUT_RIGHT_BUTTON);
+
+		glPolygonMode(GL_FRONT, GL_LINE);
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_CULL_FACE);
+
+		glutMainLoop();
+	//}
+	return 1;
+}
