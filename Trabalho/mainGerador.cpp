@@ -225,16 +225,12 @@ void cone(double raio, double altura, double cmdv, double cmdh, string filename)
 
 	//Base
 	for (int i = 0; i <= cmdv; i++){
-
-
-
 		printf("%f %f %f\n", raio*sin(alfa), altura, raio*cos(alfa)); file << raio*sin(alfa) << "," << altura << "," << raio*cos(alfa) << endl;
 		printf("0 %f 0\n", altura); file << 0 << "," << altura << "," << 0 << endl;
 		printf("%f %f %f\n", raio*sin(alfa1), altura, raio*cos(alfa1)); file << raio*sin(alfa1) << "," << altura << "," << raio*cos(alfa1) << endl;
 
 		alfa = espv*(i + 1);
 		alfa1 = espv*(i + 2);
-
 	}
 
 	//Resto
@@ -244,13 +240,9 @@ void cone(double raio, double altura, double cmdv, double cmdh, string filename)
 			alfa += espv;
 			double raionovo = raio - dif;
 
-			glColor3f(1, 0, 1);
-
 			printf("%f %f %f\n", raio*sin(alfa), altura, raio*cos(alfa)); file << raio*sin(alfa) << "," << altura << "," << raio*cos(alfa) << endl;
 			printf("%f %f %f\n", raio*sin(alfa + espv), altura, raio*cos(alfa + espv)); file << raio*sin(alfa + espv) << "," << altura << "," << raio*cos(alfa + espv) << endl;
 			printf("%f %f %f\n", raionovo*sin(alfa), altura + espl, raionovo*cos(alfa)); file << raionovo*sin(alfa) << "," << altura + espl << "," << raionovo*cos(alfa) << endl;
-
-
 
 			printf("%f %f %f\n", raio*sin(alfa + espv), altura, raio*cos(alfa + espv)); file << raio*sin(alfa + espv) << "," << altura << "," << raio*cos(alfa + espv) << endl;
 			printf("%f %f %f\n", raionovo*sin(alfa + espv), altura + espl, raionovo*cos(alfa + espv)); file << raionovo*sin(alfa + espv) << "," << altura+espl << "," << raionovo*cos(alfa + espv) << endl;
@@ -260,6 +252,50 @@ void cone(double raio, double altura, double cmdv, double cmdh, string filename)
 		altura = altura + espl;
 	}
 
+}
+
+void cilindro(double altura, double raio, int cmdh, int cmdv, string filename){
+	ofstream file(filename);
+	double espv = (2 * M_PI) / cmdv;
+	double espl = altura / cmdh;
+	double alfa = 0;
+	double alfa1 = espv;
+
+
+	altura = -(altura / 2);
+
+	//Bases
+	for (int i = 0; i <= cmdv; i++){
+		//Baixo
+		printf("%f %f %f\n", raio*sin(alfa), altura, raio*cos(alfa)); file << raio*sin(alfa) << "," << altura << "," << raio*cos(alfa) << endl;
+		printf("0 %f 0\n", altura); file << 0 << "," << altura << "," << 0 << endl;
+		printf("%f %f %f\n", raio*sin(alfa1), altura, raio*cos(alfa1)); file << raio*sin(alfa1) << "," << altura << "," << raio*cos(alfa1) << endl;
+
+		//Cima
+		printf("%f %f %f\n", raio*sin(alfa), -altura, raio*cos(alfa)); file << raio*sin(alfa) << "," << -altura << "," << raio*cos(alfa) << endl;
+		printf("%f %f %f\n", raio*sin(alfa1), -altura, raio*cos(alfa1)); file << raio*sin(alfa1) << "," << -altura << "," << raio*cos(alfa1) << endl;
+		printf("%f %f %f\n", 0, -altura, 0); file << 0 << "," << -altura << "," << 0 << endl;
+
+		alfa = espv*(i + 1);
+		alfa1 = espv*(i + 2);
+	}
+
+
+	//Resto
+	for (int i = 0; i < cmdh; i++){
+		for (int j = 0; j < cmdv; j++){
+			alfa += espv;
+
+			printf("%f %f %f\n", raio*sin(alfa), altura, raio*cos(alfa)); file << raio*sin(alfa) << "," << altura << "," << raio*cos(alfa) << endl;
+			printf("%f %f %f\n", raio*sin(alfa + espv), altura, raio*cos(alfa + espv)); file << raio*sin(alfa + espv) << "," << altura << "," << raio*cos(alfa + espv) << endl;
+			printf("%f %f %f\n", raio*sin(alfa), altura + espl, raio*cos(alfa)); file << raio*sin(alfa) << "," << altura + espl << "," << raio*cos(alfa) << endl;
+
+			printf("%f %f %f\n", raio*sin(alfa + espv), altura, raio*cos(alfa + espv)); file << raio*sin(alfa + espv) << "," << altura << "," << raio*cos(alfa + espv) << endl;
+			printf("%f %f %f\n", raio*sin(alfa + espv), altura + espl, raio*cos(alfa + espv)); file << raio*sin(alfa + espv) << "," << altura + espl << "," << raio*cos(alfa + espv) << endl;
+			printf("%f %f %f\n", raio*sin(alfa), altura + espl, raio*cos(alfa)); file << raio*sin(alfa) << "," << altura + espl << "," << raio*cos(alfa) << endl;
+		}
+		altura = altura + espl;
+	}
 }
 
 int main(int argc, char **argv) {
@@ -284,15 +320,18 @@ int main(int argc, char **argv) {
 						esfera(atof(argv[2]), atoi(argv[3]), atoi(argv[4]), argv[5]);
 					}
 					else {
-						cout << "Dados invalidos! - Primitiva nao desenhada" << endl;
+						if (!strcmp(argv[1], "cilindro") && argc == 7) {
+							cout << "Cilindro\n" << endl;
+							cilindro(atof(argv[2]), atof(argv[3]), atoi(argv[4]), atoi(argv[5]), argv[6]);
+						}
+						else {
+							cout << "Dados invalidos! - Primitiva nao desenhada" << endl;
+						}
 					}
 				}
 			}
 		}
 	}
 
-	//plano(2, 2, 2, 2, "oi");
-	//paralelipipedo(4, 2, 2, 2, 2, 2, "oi");
-	//esfera(2, 2, 2, "21");
 	return 0;
 }
