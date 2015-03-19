@@ -1,5 +1,6 @@
 #include "main.h"
 
+//Função que gera os pontos do plano:
 void plano(float comp, float larg, int cmdh, int cmdv, string filename)
 {
 	ofstream file(filename);
@@ -19,22 +20,24 @@ void plano(float comp, float larg, int cmdh, int cmdv, string filename)
 
 			printf("%f 0 %f\n", xx, zz);
 			file << xx << "," << 0 << "," << zz << endl;
-			printf("%f 0 %f\n", xx+saltox, zz);
-			file << xx+saltox << "," << 0 << "," << zz << endl;
-			printf("%f 0 %f\n", xx, zz + saltoz);
-			file << xx << "," << 0 << "," << zz+saltoz << endl;
-
 			printf("%f 0 %f\n", xx, zz + saltoz);
 			file << xx << "," << 0 << "," << zz+saltoz << endl;
 			printf("%f 0 %f\n", xx + saltox, zz);
-			file << xx+saltox << "," << 0 << "," << zz << endl;
+			file << xx + saltox << "," << 0 << "," << zz << endl;
+
+			printf("%f 0 %f\n", xx, zz + saltoz);
+			file << xx << "," << 0 << "," << zz+saltoz << endl;
 			printf("%f 0 %f\n", xx+saltox, zz + saltoz);
 			file << xx+saltox << "," << 0 << "," << zz+saltoz << endl;
+			printf("%f 0 %f\n", xx + saltox, zz);
+			file << xx + saltox << "," << 0 << "," << zz << endl;
 		}
 	}
 }
 
-void paralelipipedo(float comp, float larg, float alt, int cmdh, int cmdv, int cmdl, string filename) {
+//Função que gera os pontos do paralelipipedo:
+void paralelipipedo(float comp, float larg, float alt, int cmdh, int cmdv, int cmdl, string filename) 
+{
 	ofstream file(filename);
 	float saltox = (float) larg / cmdl;
 	float saltoz = (float) comp / cmdv;
@@ -169,7 +172,9 @@ void paralelipipedo(float comp, float larg, float alt, int cmdh, int cmdv, int c
 
 }
 
-void esfera(double raio, int camadasV, int camadasH, string filename){
+//Função que gera os pontos da esfera:
+void esfera(double raio, int camadasV, int camadasH, string filename)
+{
 	ofstream file(filename);
 	float teta = 0; float fi = 0;
 	float saltoH = M_PI / camadasH;
@@ -212,7 +217,9 @@ void esfera(double raio, int camadasV, int camadasH, string filename){
 	}
 }
 
-void cone(double raio, double altura, double cmdv, double cmdh, string filename){
+//Função que gera os pontos do cone:
+void cone(double raio, double altura, double cmdv, double cmdh, string filename)
+{
 	ofstream file(filename);
 	double espv = (2 * M_PI) / cmdv;
 	double espl = altura / cmdh;
@@ -251,10 +258,11 @@ void cone(double raio, double altura, double cmdv, double cmdh, string filename)
 		raio = raio - dif;
 		altura = altura + espl;
 	}
-
 }
 
-void cilindro(double altura, double raio, int cmdh, int cmdv, string filename){
+//Função que gera os pontos do cilindro:
+void cilindro(double raio, double altura, int cmdh, int cmdv, string filename)
+{
 	ofstream file(filename);
 	double espv = (2 * M_PI) / cmdv;
 	double espl = altura / cmdh;
@@ -298,7 +306,8 @@ void cilindro(double altura, double raio, int cmdh, int cmdv, string filename){
 	}
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv) 
+{
 	if (argc>1) {
 		if (!strcmp(argv[1], "plano") && argc == 7) {
 			cout << "Plano:\n" << endl;

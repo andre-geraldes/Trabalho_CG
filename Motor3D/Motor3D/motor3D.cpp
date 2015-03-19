@@ -1,31 +1,17 @@
-#define _USE_MATH_DEFINES
+#include "mainMotor3D.h"
 
-#include <stdlib.h>
-#include <GL/glut.h>
-#include <math.h>
-#include <fstream>
-#include <iostream>
-#include <string>
-#include <vector>
-
-using namespace std;
-
-struct Ponto {
-	double x;
-	double y;
-	double z;
-};
-
+//Vector com os pontos lidos do ficheiro:
 vector<Ponto> pontos;
 
 #define CONST 1.0f;
 float xx = 0, yy = 0, zz = 0, angle = 0.0f, angle1 = 0.0f;
-float camX = 0, camY, camZ = 5;
+float camX = 0, camY = 3, camZ = 5;
 int startX, startY, tracking = 0;
 
 int alpha = 0, beta = 0, r = 5;
 
-void changeSize(int w, int h) {
+void changeSize(int w, int h) 
+{
 	// Prevent a divide by zero, when window is too short
 	// (you cant make a window with zero width).
 	if (h == 0)
@@ -49,7 +35,8 @@ void changeSize(int w, int h) {
 	glMatrixMode(GL_MODELVIEW);
 }
 
-void renderScene(void) {
+void renderScene(void) 
+{
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glLoadIdentity();
@@ -62,7 +49,8 @@ void renderScene(void) {
 	glRotatef(angle1, 1.0f, 0.0f, 0.0f);
 
 	glBegin(GL_TRIANGLES);
-	for (int i = 0; i<pontos.size(); i++)
+	glColor3f(0.0f, 1.0f, 1.0f);
+	for (int i = 0; i < pontos.size(); i++)
 		glVertex3f(pontos[i].x, pontos[i].y, pontos[i].z);
 	glEnd();
 
@@ -70,7 +58,8 @@ void renderScene(void) {
 }
 
 // Funções de processamento do teclado
-void normalkeyboard(unsigned char tecla, int x, int y) {
+void normalkeyboard(unsigned char tecla, int x, int y) 
+{
 	switch (tecla) {
 	case 'a':
 	case 'A': xx -= CONST; break;
@@ -88,7 +77,8 @@ void normalkeyboard(unsigned char tecla, int x, int y) {
 	glutPostRedisplay();
 }
 
-void specialKeys(int key, int x, int y) {
+void specialKeys(int key, int x, int y) 
+{
 	switch (key) {
 	case GLUT_KEY_LEFT: angle -= 5.0f; break;
 	case GLUT_KEY_RIGHT: angle += 5.0f; break;
@@ -123,13 +113,10 @@ void processMouseButtons(int button, int state, int xx, int yy)
 		}
 		tracking = 0;
 	}
-
-
 }
 
 void processMouseMotion(int xx, int yy)
 {
-
 	int deltaX, deltaY;
 	int alphaAux, betaAux;
 	int rAux;
@@ -141,8 +128,6 @@ void processMouseMotion(int xx, int yy)
 	deltaY = yy - startY;
 
 	if (tracking == 1) {
-
-
 		alphaAux = alpha + deltaX;
 		betaAux = beta + deltaY;
 
@@ -163,12 +148,12 @@ void processMouseMotion(int xx, int yy)
 	}
 	camX = rAux * sin(alphaAux * 3.14 / 180.0) * cos(betaAux * 3.14 / 180.0);
 	camZ = rAux * cos(alphaAux * 3.14 / 180.0) * cos(betaAux * 3.14 / 180.0);
-	camY = rAux *                          sin(betaAux * 3.14 / 180.0);
-
+	camY = rAux * sin(betaAux * 3.14 / 180.0);
 }
 
 // Função de processamento do menu
-void menu(int op) {
+void menu(int op) 
+{
 	switch (op) {
 	case 1: glPolygonMode(GL_FRONT, GL_FILL); break;
 	case 2: glPolygonMode(GL_FRONT, GL_LINE); break;
@@ -177,6 +162,7 @@ void menu(int op) {
 	glutPostRedisplay();
 }
 
+// Função de leitura do ficheiro com os pontos:
 void readFile(string filename)
 {
 	string linha, token, delimiter = ",";
@@ -218,16 +204,31 @@ void readFile(string filename)
 	
 }
 
-int main(int argc, char **argv) {
+// Função de leitura do ficheiro XML:
+void readXML(string filename)
+{
+	XMLDocument doc;
+	doc.LoadFile(filename.c_str());
+
+	XMLElement* raiz = doc.FirstChildElement();
+	for (XMLElement* elem = raiz->FirstChildElement(); elem != NULL; elem = elem->NextSiblingElement()){
+		string file = elem->Attribute("ficheiro");
+		cout << "Ficheiro lido: " << file << endl;
+		readFile(file);
+	}
+}
+
+int main(int argc, char **argv) 
+{
 	if (argc>1) {
 		glutInit(&argc, argv);
 		glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-		glutInitWindowPosition(200, 200);
+		glutInitWindowPosition(100, 100);
 		glutInitWindowSize(800, 800);
 		glutCreateWindow("TP@CG");
 
-		//-------------------------readXML(argv[1]);
-		readFile(argv[1]);
+		//Leitura do ficheiro XML:
+		readXML(argv[1]);
 
 		glutDisplayFunc(renderScene);
 		glutIdleFunc(renderScene);
@@ -241,6 +242,7 @@ int main(int argc, char **argv) {
 		glutMouseFunc(processMouseButtons);
 		glutMotionFunc(processMouseMotion);
 
+		//Criação e opções do menu:
 		glutCreateMenu(menu);
 		glutAddMenuEntry("GL_FILL", 1);
 		glutAddMenuEntry("GL_LINE", 2);

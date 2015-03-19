@@ -79,6 +79,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="motor3D.cpp" />
+    <ClCompile Include="tinyxml2.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="cilindro.xml" />
+    <Xml Include="cone.xml" />
+    <Xml Include="esfera.xml" />
+    <Xml Include="motor.xml" />
+    <Xml Include="paralelipipedo.xml" />
+    <Xml Include="plano.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="mainMotor3D.h" />
+    <ClInclude Include="tinyxml2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
