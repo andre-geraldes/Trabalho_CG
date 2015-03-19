@@ -23,14 +23,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="esfera.xml" />
-    <Xml Include="cone.xml" />
-    <Xml Include="motor.xml" />
-    <Xml Include="plano.xml" />
-    <Xml Include="paralelipipedo.xml" />
-    <Xml Include="cilindro.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="tinyxml2.h">
       <Filter>Header Files</Filter>
     </ClInclude>

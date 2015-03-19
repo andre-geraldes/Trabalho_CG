@@ -1,9 +1,11 @@
 #include "mainMotor3D.h"
 
-//Vector com os pontos lidos do ficheiro:
+// Vector com os pontos lidos do ficheiro:
 vector<Ponto> pontos;
 
 #define CONST 1.0f;
+
+// Variaveis para utilização do teclado e rato:
 float xx = 0, yy = 0, zz = 0, angle = 0.0f, angle1 = 0.0f;
 float camX = 0, camY = 3, camZ = 5;
 int startX, startY, tracking = 0;

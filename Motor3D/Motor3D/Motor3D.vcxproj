@@ -46,6 +46,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\toolkits\includes;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\toolkits\libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -80,14 +82,6 @@
   <ItemGroup>
     <ClCompile Include="motor3D.cpp" />
     <ClCompile Include="tinyxml2.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="cilindro.xml" />
-    <Xml Include="cone.xml" />
-    <Xml Include="esfera.xml" />
-    <Xml Include="motor.xml" />
-    <Xml Include="paralelipipedo.xml" />
-    <Xml Include="plano.xml" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mainMotor3D.h" />
