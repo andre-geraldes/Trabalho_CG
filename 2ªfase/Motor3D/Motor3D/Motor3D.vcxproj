@@ -87,6 +87,9 @@
     <ClInclude Include="mainMotor3D.h" />
     <ClInclude Include="tinyxml2.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="teste.xml" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
