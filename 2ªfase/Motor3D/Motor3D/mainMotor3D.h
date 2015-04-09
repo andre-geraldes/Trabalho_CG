@@ -11,16 +11,14 @@
 #include <string>
 #include <vector>
 #include "tinyxml2.h"
+#include "escala.h"
+#include "transformacao.h"
+#include "primitiva.h"
+#include "ponto.h"
+#include "rotacao.h"
+#include "translacao.h"
 
 using namespace tinyxml2;
 using namespace std;
-
-//Estrutura ponto:
-struct Ponto
-{
-	double x;
-	double y;
-	double z;
-};
 
 #endif

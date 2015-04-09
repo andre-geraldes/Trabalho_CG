@@ -1,6 +1,10 @@
 #include <vector>
-#include <GL\glew.h>
+#include <stdlib.h>
 #include <GL\glut.h>
+#include <string>
+#include <vector>
+#include "ponto.h"
+#include "transformacao.h"
 
 class Primitiva{
 
@@ -11,13 +15,13 @@ class Primitiva{
 
 public:
 	Primitiva();
-	Primitiva(string, vector<Primitiva>, vector<Ponto>, Transformacao);
+	Primitiva(string n, vector<Primitiva>, vector<Ponto>, Transformacao);
 	string getNome(){ return nome; }
 	vector<Ponto> getPontos() { return pontos; }
 	vector<Primitiva> getFilhos(){ return filhos; }
 	void setNome(string n){ nome = n; }
 	void setFilhos(vector<Primitiva> f){ filhos = f; }
-	void setPontos(vector<Pontos> p){ pontos = p; }
+	void setPontos(vector<Ponto> p){ pontos = p; }
 	void setTransformacao(Transformacao t){ transformacao = t; }
 	virtual ~Primitiva();
 }; 

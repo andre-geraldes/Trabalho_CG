@@ -8,7 +8,7 @@ Rotacao::Rotacao(){
 
 }
 
-Rotacao(float a, float b, float c, float d){
+Rotacao::Rotacao(float a, float b, float c, float d){
 	angulo = a;
 	eixoX = b;
 	eixoY = c;

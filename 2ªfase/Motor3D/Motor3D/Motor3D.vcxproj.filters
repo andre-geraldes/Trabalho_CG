@@ -21,12 +21,48 @@
     <ClCompile Include="tinyxml2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="escala.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Ponto.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="primitiva.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rotacao.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="transformacao.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="translacao.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tinyxml2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="mainMotor3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="escala.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ponto.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="primitiva.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rotacao.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="transformacao.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="translacao.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

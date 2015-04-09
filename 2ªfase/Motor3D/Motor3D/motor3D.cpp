@@ -55,7 +55,7 @@ void renderScene(void)
 	glBegin(GL_TRIANGLES);
 	glColor3f(0.0f, 1.0f, 1.0f);
 	for (int i = 0; i < pontos.size(); i++)
-		glVertex3f(pontos[i].x, pontos[i].y, pontos[i].z);
+		glVertex3f(pontos[i].getX(), pontos[i].getY(), pontos[i].getZ());
 	glEnd();
 
 	glutSwapBuffers();
@@ -183,19 +183,19 @@ void readFile(string filename)
 			token = linha.substr(0, pos);
 			a = atof(token.c_str());
 			linha.erase(0, pos + delimiter.length());
-			p.x = a;
+			p.setX(a);
 
 			pos = linha.find(delimiter);
 			token = linha.substr(0, pos);
 			b = atof(token.c_str());
 			linha.erase(0, pos + delimiter.length());
-			p.y = b;
+			p.setY(b);
 
 			pos = linha.find(delimiter);
 			token = linha.substr(0, pos);
 			c = atof(token.c_str());
 			linha.erase(0, pos + delimiter.length());
-			p.z = c;
+			p.setZ(c);
 
 			pontos.push_back(p);
 		}
@@ -208,12 +208,14 @@ void readFile(string filename)
 	
 }
 
-void parseGrupo(XMLElement* grupo, /**/ transf, char familia){
+
+void parseGrupo(XMLElement* grupo, Transformacao transf, char familia){
 	Transformacao trans;
 	Translacao tr;
 	Rotacao ro;
 	Escala es;
-
+	float ang1, rotX, rotY, rotZ, transX, transY, transZ, escX, escY, escZ;
+	ang1 = rotX = rotY = rotZ = transX = transY = transZ = escX = escY = escZ = 1;
 
 	if (strcmp(grupo->FirstChildElement()->Value(), "grupo") == 0)
 		grupo = grupo->FirstChildElement();
@@ -227,17 +229,21 @@ void parseGrupo(XMLElement* grupo, /**/ transf, char familia){
 	else {
 		for (transformacao; (strcmp(transformacao->Value(), "modelos") != 0); transformacao = transformacao->NextSiblingElement()) {
 			if (strcmp(transformacao->Value(), "translacao") == 0)
-				tr = verificaTranslacoes(transformacao);
-			//else { tr.setRotacao(transf.getRotacao());}
-
+				transX = stof(transformacao->Attribute("X"));
+				transY = stof(transformacao->Attribute("Y"));
+				transZ = stof(transformacao->Attribute("Z"));
+				tr = Translacao::Translacao(transX, transY, transZ);
 			if (strcmp(transformacao->Value(), "rotacao") == 0)
-				ro = verificaRotacao(transformacao);
-			//else { tr.setRotacao(transf.getRotacao());}
-
-
+				ang1 = stof(transformacao->Attribute("angulo"));
+				rotX = stof(transformacao->Attribute("eixoX"));
+				rotY = stof(transformacao->Attribute("eixoY"));
+				rotZ = stof(transformacao->Attribute("eixoZ"));
+				ro = Rotacao::Rotacao(ang1, rotX, rotY, rotZ);
 			if (strcmp(transformacao->Value(), "escala") == 0)
-				es = verificaEscala(transformacao);
-			//else { tr.setEscala(transf.getEscala());}
+				escX = stof(transformacao->Attribute("X"));
+				escY = stof(transformacao->Attribute("Y"));
+				escZ = stof(transformacao->Attribute("Z"));
+				es = Escala::Escala(escX, escY, escZ);
 		}
 		trans = Transformacao::Transformacao(tr, ro, es);
 	}
@@ -250,7 +256,6 @@ void parseGrupo(XMLElement* grupo, /**/ transf, char familia){
 		flag = readFile(p.getNomePrimitiva());
 
 		if (flag >= 0 && p.getNomePrimitiva().compare("teapot.3d")) {
-			p.setImagem(modelo->Attribute("textura"));
 			p.setTransformacao(trans);
 			p.setTipo(familia);
 			int n = primitivas.size();
