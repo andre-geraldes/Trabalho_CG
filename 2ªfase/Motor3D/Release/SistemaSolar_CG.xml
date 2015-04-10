@@ -10,7 +10,7 @@
 
 			<!--Mercúrio-->
 			<grupo>
-				<translacao X="20" Y="0" Z="0" />
+				<translacao X="17.4" Y="0" Z="0" />
 				<escala X="0.1" Y="0.1" Z="0.1"/>
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>
@@ -19,7 +19,7 @@
 
 			<!--Vénus-->
 			<grupo>
-				<translacao X="30" Y="0" Z="0" />
+				<translacao X="32.4" Y="0" Z="0" />
 				<escala X="0.12" Y="0.12" Z="0.12"/>
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>
@@ -28,7 +28,7 @@
 
 			<!--Terra-->
 			<grupo>
-				<translacao X="60" Y="0" Z="0" />
+				<translacao X="45" Y="0" Z="0" />
 				<escala X="0.13" Y="0.13" Z="0.13"/>
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>
@@ -47,7 +47,7 @@
 
 			<!--Marte-->
 			<grupo>
-				<translacao X="40" Y="0" Z="0" />
+				<translacao X="69" Y="0" Z="0" />
 				<escala X="0.1" Y="0.1" Z="0.1"/>
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>
@@ -56,7 +56,7 @@
 
 			<!--Júpiter-->
 			<grupo>
-				<translacao X="50" Y="0" Z="0" />
+				<translacao X="82" Y="0" Z="0" />
 				<escala X="0.35" Y="0.35" Z="0.35"/>
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>
@@ -65,7 +65,7 @@
 
 			<!--Saturno-->
 			<grupo>
-				<translacao X="60" Y="0" Z="0" />
+				<translacao X="106" Y="0" Z="0" />
 				<escala X="0.3" Y="0.3" Z="0.3"/>
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>
@@ -74,7 +74,7 @@
 
 			<!--Urano-->
 			<grupo>
-				<translacao X="70" Y="0" Z="0" />
+				<translacao X="120" Y="0" Z="0" />
 				<escala X="0.2" Y="0.2" Z="0.2"/>
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>
@@ -83,7 +83,7 @@
 
 			<!--Neptuno-->
 			<grupo>
-				<translacao X="80" Y="0" Z="0" />
+				<translacao X="145" Y="0" Z="0" />
 				<escala X="0.21" Y="0.21" Z="0.21"/>
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>
