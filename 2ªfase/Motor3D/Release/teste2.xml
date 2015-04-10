@@ -1,27 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <cena>
   <grupo>
-    <translação X="5" Y="0" Z="2" />
-    <rotação angulo="45" eixoX="0" eixoY="1" eixoZ="0" />
+    <translacao X="5" Y="0" Z="2" />
+    <rotacao angulo="45" eixoX="0" eixoY="1" eixoZ="0" />
     <modelos>
-      <modelo ficheiro="esfera.3d" />
+      <modelo ficheiro="cone.3d" />
     </modelos>
     <grupo>
-      <translação Y=”1” />
+      <translacao Y="1" />
       <modelos>
-        <modelo ficheiro=”cone.3d” />
+	<modelo ficheiro="cone.3d" />
       </modelos>
       <grupo>
-        <translação X=”1” />
+	<translacao X="1" />
         <modelos>
-          <modelo ficheiro=”cone.3d” />
+	  <modelo ficheiro="cone.3d" />
         </modelos>
       </grupo>
     </grupo>
     <grupo>
-      <translação X=”1” />
+      <translacao X="1" />
       <modelos>
-        <modelo ficheiro=”cone.3d” />
+        <modelo ficheiro="cone.3d" />
       </modelos>
     </grupo>
     </grupo>

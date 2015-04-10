@@ -220,35 +220,56 @@ void parseGrupo(XMLElement* grupo, Transformacao transf){
 	if (strcmp(grupo->FirstChildElement()->Value(), "grupo") == 0)
 		grupo = grupo->FirstChildElement();
 
+	
 	//transformações para um grupo
 	XMLElement* transformacao = grupo->FirstChildElement();
 
-		for (transformacao; (strcmp(transformacao->Value(), "modelos") != 0); transformacao = transformacao->NextSiblingElement()) {
-			if (strcmp(transformacao->Value(), "translacao") == 0){
-				transX = stof(transformacao->Attribute("X"));
-				transY = stof(transformacao->Attribute("Y"));
-				transZ = stof(transformacao->Attribute("Z"));
-				tr = Translacao::Translacao(transX, transY, transZ);
-			}
-				if (strcmp(transformacao->Value(), "rotacao") == 0){
-					ang1 = stof(transformacao->Attribute("angulo"));
-					rotX = stof(transformacao->Attribute("eixoX"));
-					rotY = stof(transformacao->Attribute("eixoY"));
-					rotZ = stof(transformacao->Attribute("eixoZ"));
-					ro = Rotacao::Rotacao(ang1, rotX, rotY, rotZ);
-				}
-				if (strcmp(transformacao->Value(), "escala") == 0){
-					escX = stof(transformacao->Attribute("X"));
-					escY = stof(transformacao->Attribute("Y"));
-					escZ = stof(transformacao->Attribute("Z"));
-					es.setX(escX);
-					es.setY(escY);
-					es.setZ(escZ);
-				}
-		
+	for (transformacao; (strcmp(transformacao->Value(), "modelos") != 0); transformacao = transformacao->NextSiblingElement()) {
+		if (strcmp(transformacao->Value(), "translacao") == 0){
+			if(transformacao->Attribute("X")) transX = stof(transformacao->Attribute("X"));
+			else transX = 0;
+			if (transformacao->Attribute("Y")) transY = stof(transformacao->Attribute("Y"));
+			else transY = 0;
+			if (transformacao->Attribute("Z")) transZ = stof(transformacao->Attribute("Z"));
+			else transZ = 0;
+			tr = Translacao::Translacao(transX, transY, transZ);
+		}
+		if (strcmp(transformacao->Value(), "rotacao") == 0){
+			if (transformacao->Attribute("angulo")) ang1 = stof(transformacao->Attribute("angulo"));
+			else ang1 = 0;
+			if (transformacao->Attribute("eixoX")) rotX = stof(transformacao->Attribute("eixoX"));
+			else rotX = 0;
+			if (transformacao->Attribute("eixoY")) rotY = stof(transformacao->Attribute("eixoY"));
+			else rotY = 0;
+			if (transformacao->Attribute("eixoZ")) rotZ = stof(transformacao->Attribute("eixoZ"));
+			else rotZ = 0;
+			ro = Rotacao::Rotacao(ang1, rotX, rotY, rotZ);
+		}
+		if (strcmp(transformacao->Value(), "escala") == 0){
+			if (transformacao->Attribute("X")) escX = stof(transformacao->Attribute("X"));
+			else escX = 0;
+			if (transformacao->Attribute("Y")) escY = stof(transformacao->Attribute("Y"));
+			else escY = 0;
+			if (transformacao->Attribute("Z")) escZ = stof(transformacao->Attribute("Z"));
+			else escZ = 0;
+			es.setX(escX);
+			es.setY(escY);
+			es.setZ(escZ);
+		}
+		//Actualizacao dos valores em relação ao nodo pai
+		tr.setTransx(tr.getTransx() + transf.getTranslacao().getTransx());
+		tr.setTransy(tr.getTransy() + transf.getTranslacao().getTransy());
+		tr.setTransz(tr.getTransz() + transf.getTranslacao().getTransz());
+		ro.setAngulo(ro.getAngulo() + transf.getRotacao().getAngulo());
+		ro.setEixoX(ro.geteixoX() + transf.getRotacao().geteixoX());
+		ro.setEixoY(ro.geteixoY() + transf.getRotacao().geteixoY());
+		ro.setEixoZ(ro.geteixoZ() + transf.getRotacao().geteixoZ());
+		es.setX(es.getX() * transf.getEscala().getX());
+		es.setY(es.getY() * transf.getEscala().getY());
+		es.setZ(es.getZ() * transf.getEscala().getZ());
 		trans = Transformacao::Transformacao(tr, ro, es);
 	}
-
+		
 	//para o mesmo grupo, quais os modelos(ficheiros) que recebem as transformações
 	for (XMLElement* modelo = grupo->FirstChildElement("modelos")->FirstChildElement("modelo"); modelo; modelo = modelo->NextSiblingElement("modelo")) {
 		
@@ -270,13 +291,11 @@ void parseGrupo(XMLElement* grupo, Transformacao transf){
 
 	//faz o mesmo de cima para grupos filhos
 	if (grupo->FirstChildElement("grupo")) {
-		cout << "Vou para os Filhos" << endl;
 		parseGrupo(grupo->FirstChildElement("grupo"), trans);
 	}
 
 	//faz o mesmo de cima para grupos irmãos
 	if (grupo->NextSiblingElement("grupo")) {
-		cout << "Vim para os Irmaos" << endl;
 		parseGrupo(grupo->NextSiblingElement("grupo"), transf);
 	}
 }
@@ -284,13 +303,17 @@ void parseGrupo(XMLElement* grupo, Transformacao transf){
 // Função de leitura do ficheiro XML:
 void readXML(string filename)
 {
+
 	XMLDocument doc;
 	doc.LoadFile(filename.c_str());
-
+	
 	XMLElement* cena = doc.FirstChildElement("cena");
 	XMLElement* grupo = cena->FirstChildElement("grupo");
-	Transformacao t = Transformacao::Transformacao();
 	
+	Transformacao t = Transformacao::Transformacao();
+	Escala e;
+	e = Escala::Escala(1, 1, 1);
+	t.setEscala(e);
 	parseGrupo(grupo, t);
 	
 }
