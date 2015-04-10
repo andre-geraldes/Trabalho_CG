@@ -11,7 +11,7 @@
 			<!--Mercúrio-->
 			<grupo>
 				<translacao X="20" Y="0" Z="0" />
-				<escala X="0.5" Y="0.5" Z="0.5"/>
+				<escala X="0.1" Y="0.1" Z="0.1"/>
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>
 				</modelos>
@@ -20,7 +20,7 @@
 			<!--Vénus-->
 			<grupo>
 				<translacao X="30" Y="0" Z="0" />
-				<escala X="0.5" Y="0.5" Z="0.5"/>
+				<escala X="0.12" Y="0.12" Z="0.12"/>
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>
 				</modelos>
@@ -29,7 +29,7 @@
 			<!--Terra-->
 			<grupo>
 				<translacao X="60" Y="0" Z="0" />
-				<escala X="0.09" Y="0.09" Z="0.09"/>
+				<escala X="0.13" Y="0.13" Z="0.13"/>
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>
 				</modelos>
@@ -37,7 +37,7 @@
 				<!--Lua-->
 					<grupo>
 						<translacao X="1" Y="1" Z="1" />
-						<escala X="0.20" Y="0.20" Z="0.20"/>
+						<escala X="0.3" Y="0.30" Z="0.30"/>
 						<modelos>
 							<modelo ficheiro="esfera.3d"/>
 						</modelos>
@@ -48,7 +48,7 @@
 			<!--Marte-->
 			<grupo>
 				<translacao X="40" Y="0" Z="0" />
-				<escala X="0.055" Y="0.055" Z="0.055"/>
+				<escala X="0.1" Y="0.1" Z="0.1"/>
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>
 				</modelos>
@@ -57,7 +57,7 @@
 			<!--Júpiter-->
 			<grupo>
 				<translacao X="50" Y="0" Z="0" />
-				<escala X="0.2" Y="0.2" Z="0.2"/>
+				<escala X="0.35" Y="0.35" Z="0.35"/>
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>
 				</modelos>
@@ -66,7 +66,7 @@
 			<!--Saturno-->
 			<grupo>
 				<translacao X="60" Y="0" Z="0" />
-				<escala X="0.17" Y="0.17" Z="0.17"/>
+				<escala X="0.3" Y="0.3" Z="0.3"/>
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>
 				</modelos>
@@ -75,7 +75,7 @@
 			<!--Urano-->
 			<grupo>
 				<translacao X="70" Y="0" Z="0" />
-				<escala X="0.1" Y="0.1" Z="0.1"/>
+				<escala X="0.2" Y="0.2" Z="0.2"/>
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>
 				</modelos>
@@ -84,7 +84,7 @@
 			<!--Neptuno-->
 			<grupo>
 				<translacao X="80" Y="0" Z="0" />
-				<escala X="0.99" Y="0.99" Z="0.99"/>
+				<escala X="0.21" Y="0.21" Z="0.21"/>
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>
 				</modelos>
