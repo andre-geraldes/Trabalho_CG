@@ -12,6 +12,8 @@ float xx = 0, yy = 0, zz = 0, angle = 0.0f, angle1 = 0.0f;
 float camX = 0, camY = 3, camZ = 5;
 int startX, startY, tracking = 0;
 
+size_t teste = 0;
+
 int alpha = 0, beta = 0, r = 5;
 
 void changeSize(int w, int h) 
@@ -52,10 +54,18 @@ void renderScene(void)
 	glRotatef(angle, 0.0f, 1.0f, 0.0f);
 	glRotatef(angle1, 1.0f, 0.0f, 0.0f);
 
-	glBegin(GL_TRIANGLES);
-	glColor3f(0.0f, 1.0f, 1.0f);
-	for (size_t i = 0; i < pontos.size(); i++)
-		glVertex3f(pontos[i].getX(), pontos[i].getY(), pontos[i].getZ());
+	for (size_t j = 0; j < primitivas.size(); j++){
+		glRotatef(primitivas[j].getTransformacao().getRotacao().getAngulo(), primitivas[j].getTransformacao().getRotacao().geteixoX(), primitivas[j].getTransformacao().getRotacao().geteixoY(), primitivas[j].getTransformacao().getRotacao().geteixoZ());
+		glScalef(primitivas[j].getTransformacao().getEscala().getX(), primitivas[j].getTransformacao().getEscala().getY(), primitivas[j].getTransformacao().getEscala().getZ());
+		glTranslatef(primitivas[j].getTransformacao().getTranslacao().getTransx(), primitivas[j].getTransformacao().getTranslacao().getTransy(), primitivas[j].getTransformacao().getTranslacao().getTransz());
+		pontos = primitivas[j].getPontos();
+		glBegin(GL_TRIANGLES);
+		glColor3f(0.0f, 1.0f, 1.0f);
+		for (size_t i = 0; i < pontos.size(); i++)
+			glVertex3f(pontos[i].getX(), pontos[i].getY(), pontos[i].getZ());
+		glEnd();
+	}
+	
 	glEnd();
 
 	glutSwapBuffers();
@@ -213,7 +223,7 @@ void parseGrupo(XMLElement* grupo, Transformacao transf){
 	Transformacao trans;
 	Translacao tr;
 	Rotacao ro;
-	Escala es = Escala::Escala(1, 1, 1);
+	Escala es = Escala::Escala(1,1,1);
 	float ang1, rotX, rotY, rotZ, transX, transY, transZ, escX, escY, escZ;
 	ang1 = rotX = rotY = rotZ = transX = transY = transZ = escX = escY = escZ = 1;
 
