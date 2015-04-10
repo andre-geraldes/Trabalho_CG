@@ -59,7 +59,7 @@ void renderScene(void)
 		Transformacao t = primitivas[j].getTransformacao();
 
 		glRotatef(t.getRotacao().getAngulo(), primitivas[j].getTransformacao().getRotacao().geteixoX(), primitivas[j].getTransformacao().getRotacao().geteixoY(), primitivas[j].getTransformacao().getRotacao().geteixoZ());
-		glScalef(t.getEscala().getX(), primitivas[j].getTransformacao().getEscala().getY(), primitivas[j].getTransformacao().getEscala().getZ());
+		//glScalef(t.getEscala().getX(), primitivas[j].getTransformacao().getEscala().getY(), primitivas[j].getTransformacao().getEscala().getZ());
 		glTranslatef(t.getTranslacao().getTransx(), primitivas[j].getTransformacao().getTranslacao().getTransy(), primitivas[j].getTransformacao().getTranslacao().getTransz());
 		pontos = primitivas[j].getPontos();
 		glBegin(GL_TRIANGLES);
@@ -260,11 +260,11 @@ void parseGrupo(XMLElement* grupo, Transformacao transf){
 		}
 		if (strcmp(transformacao->Value(), "escala") == 0){
 			if (transformacao->Attribute("X")) escX = stof(transformacao->Attribute("X"));
-			else escX = 0;
+			else escX = 1;
 			if (transformacao->Attribute("Y")) escY = stof(transformacao->Attribute("Y"));
-			else escY = 0;
+			else escY = 1;
 			if (transformacao->Attribute("Z")) escZ = stof(transformacao->Attribute("Z"));
-			else escZ = 0;
+			else escZ = 1;
 			es.setX(escX);
 			es.setY(escY);
 			es.setZ(escZ);
