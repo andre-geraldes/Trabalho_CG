@@ -57,10 +57,11 @@ void renderScene(void)
 	for (size_t j = 0; j < primitivas.size(); j++){
 
 		Transformacao t = primitivas[j].getTransformacao();
-
-		glRotatef(t.getRotacao().getAngulo(), primitivas[j].getTransformacao().getRotacao().geteixoX(), primitivas[j].getTransformacao().getRotacao().geteixoY(), primitivas[j].getTransformacao().getRotacao().geteixoZ());
-		//glScalef(t.getEscala().getX(), primitivas[j].getTransformacao().getEscala().getY(), primitivas[j].getTransformacao().getEscala().getZ());
-		glTranslatef(t.getTranslacao().getTransx(), primitivas[j].getTransformacao().getTranslacao().getTransy(), primitivas[j].getTransformacao().getTranslacao().getTransz());
+		
+		glRotatef(t.getRotacao().getAngulo(), t.getRotacao().geteixoX(), t.getRotacao().geteixoY(), t.getRotacao().geteixoZ());
+		glScalef(t.getEscala().getX(), primitivas[j].getTransformacao().getEscala().getY(), primitivas[j].getTransformacao().getEscala().getZ());
+		glTranslatef(t.getTranslacao().getTransx(), t.getTranslacao().getTransy(), t.getTranslacao().getTransz());
+		pontos.clear();
 		pontos = primitivas[j].getPontos();
 		glBegin(GL_TRIANGLES);
 		glColor3f(0.0f, 1.0f, 1.0f);

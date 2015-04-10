@@ -1,4 +1,4 @@
-﻿Build started 10/04/2015 22:33:48.
+﻿Build started 10/04/2015 22:48:51.
      1>Project "C:\Users\André Geraldes\Desktop\CG\Trabalho\Trabalho_CG\2ªfase\Motor3D\Motor3D\Motor3D.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt motor3D.cpp
@@ -19,4 +19,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.58
+Time Elapsed 00:00:01.43
