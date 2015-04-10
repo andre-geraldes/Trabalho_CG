@@ -10,7 +10,7 @@
 
 			<!--Mercúrio-->
 			<grupo>
-				<translacao X="10" Y="0" Z="0" />
+				<translacao X="20" Y="0" Z="0" />
 				<escala X="0.5" Y="0.5" Z="0.5"/>
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>
@@ -19,8 +19,8 @@
 
 			<!--Vénus-->
 			<grupo>
-				<translacao X="20" Y="0" Z="0" />
-				<escala X="0.08" Y="0.08" Z="0.08"/>
+				<translacao X="30" Y="0" Z="0" />
+				<escala X="0.5" Y="0.5" Z="0.5"/>
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>
 				</modelos>
@@ -28,7 +28,7 @@
 
 			<!--Terra-->
 			<grupo>
-				<translacao X="30" Y="0" Z="0" />
+				<translacao X="60" Y="0" Z="0" />
 				<escala X="0.09" Y="0.09" Z="0.09"/>
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>

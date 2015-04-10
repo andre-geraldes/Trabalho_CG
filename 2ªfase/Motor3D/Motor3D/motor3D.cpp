@@ -55,12 +55,12 @@ void renderScene(void)
 	glRotatef(angle1, 1.0f, 0.0f, 0.0f);
 
 	for (size_t j = 0; j < primitivas.size(); j++){
-
+		glPushMatrix();
 		Transformacao t = primitivas[j].getTransformacao();
 		
 		glRotatef(t.getRotacao().getAngulo(), t.getRotacao().geteixoX(), t.getRotacao().geteixoY(), t.getRotacao().geteixoZ());
-		glScalef(t.getEscala().getX(), primitivas[j].getTransformacao().getEscala().getY(), primitivas[j].getTransformacao().getEscala().getZ());
 		glTranslatef(t.getTranslacao().getTransx(), t.getTranslacao().getTransy(), t.getTranslacao().getTransz());
+		glScalef(t.getEscala().getX(), primitivas[j].getTransformacao().getEscala().getY(), primitivas[j].getTransformacao().getEscala().getZ());
 		pontos.clear();
 		pontos = primitivas[j].getPontos();
 		glBegin(GL_TRIANGLES);
@@ -68,6 +68,7 @@ void renderScene(void)
 		for (size_t i = 0; i < pontos.size(); i++)
 			glVertex3f(pontos[i].getX(), pontos[i].getY(), pontos[i].getZ());
 		glEnd();
+		glPopMatrix();
 	}
 	
 	glEnd();
