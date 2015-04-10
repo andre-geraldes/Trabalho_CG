@@ -1,0 +1,177 @@
+<cena>	
+	<grupo>	
+	<!--SOL-->
+	<grupo>		
+		<escala X="1" Y="1" Z="1"/>
+		<modelos>
+			<modelo ficheiro="esfera.3d" />
+		</modelos>
+		
+			
+		<!--MERCURIO-->
+		<grupo>
+			<translacao X="12" Y="0" Z="0" />
+			<escala X="0.05" Y="0.05" Z="0.05"/>
+			<modelos>
+				<modelo ficheiro="esfera.3d" />
+			</modelos>
+		</grupo>
+
+		<!--Venus-->
+		<grupo>
+			<translacao X="20" Y="0" Z="0" />			
+			<escala X="0.098" Y="0.098" Z="0.098"/>
+			<modelos>
+				<modelo ficheiro="esfera.3d" />
+			</modelos>
+		</grupo>
+
+		<!--TERRA-->
+		<grupo>
+			<translacao X="30" Y="0" Z="0" />			
+			<escala X="0.1" Y="0.1" Z="0.1"/>
+			<modelos>
+				<modelo ficheiro="esfera.3d" />
+			</modelos>
+			<!--LUA-->
+			<grupo>
+			<translacao X="1" Y="1" Z="2" />			
+			<escala X="0.25" Y="0.25" Z="0.25"/>
+				<modelos>
+					<modelo ficheiro="esfera.3d" />
+				</modelos>
+			</grupo>
+	
+		</grupo>
+		<!--Marte-->
+		<grupo>
+			<translacao X="38" Y="0" Z="0" />			
+			<escala X="0.06" Y="0.06" Z="0.06"/>
+			<modelos>
+				<modelo ficheiro="esfera.3d" />
+			</modelos>
+		</grupo>
+		<!--Jupiter-->
+		<grupo>
+			<translacao X="70" Y="0" Z="0" />			
+			<escala X="0.7" Y="0.7" Z="0.7"/>
+			<modelos>
+				<modelo ficheiro="esfera.3d" />
+			</modelos>
+			<!--Jupiter=LUA1-->
+			<grupo>
+				<translacao X="2" Y="5" Z="2" />			
+				<escala X="0.05" Y="0.05" Z="0.05"/>
+				<modelos>
+					<modelo ficheiro="esfera.3d" />
+				</modelos>
+			</grupo>
+			<!--Jupiter=LUA2-->
+			<grupo>
+				<translacao X="-4" Y="4" Z="2" />			
+				<escala X="0.03" Y="0.03" Z="0.03"/>
+				<modelos>
+					<modelo ficheiro="esfera.3d" />
+				</modelos>
+			</grupo>
+			<!--Jupiter=LUA3-->
+			<grupo>
+				<translacao X="2" Y="-3" Z="0" />			
+				<escala X="0.09" Y="0.09" Z="0.09"/>
+				<modelos>
+					<modelo ficheiro="esfera.3d" />
+				</modelos>
+			</grupo>
+			<!--Jupiter=LUA4-->
+			<grupo>
+				<translacao X="-4" Y="-4" Z="2" />			
+				<escala X="0.1" Y="0.1" Z="0.1"/>
+				<modelos>
+					<modelo ficheiro="esfera.3d" />
+				</modelos>
+			</grupo>
+			<!--Jupiter=LUA5-->
+			<grupo>
+				<translacao X="3.5" Y="-1" Z="-4" />			
+				<escala X="0.09" Y="0.09" Z="0.09"/>
+				<modelos>
+					<modelo ficheiro="esfera.3d" />
+				</modelos>
+			</grupo>
+			<!--Jupiter=LUA6-->
+			<grupo>
+				<translacao X="-4" Y="-2" Z="-2" />			
+				<escala X="0.1" Y="0.1" Z="0.1"/>
+				<modelos>
+					<modelo ficheiro="esfera.3d" />
+				</modelos>
+			</grupo>	
+		</grupo>
+		<!--Staurno-->
+		<grupo>
+			<translacao X="85" Y="0" Z="0" />			
+			<escala X="0.3" Y="0.3" Z="0.3"/>
+			<modelos>
+				<modelo ficheiro="esfera.3d" />
+			</modelos>
+			<!--Staurno=LUA1-->
+			<grupo>
+				<translacao X="1" Y="2.5" Z="1" />			
+				<escala X="0.05" Y="0.05" Z="0.05"/>
+				<modelos>
+					<modelo ficheiro="esfera.3d" />
+				</modelos>
+			</grupo>
+			<!--Staurno=LUA2-->
+			<grupo>
+				<translacao X="-2" Y="2" Z="2" />			
+				<escala X="0.03" Y="0.03" Z="0.03"/>
+				<modelos>
+					<modelo ficheiro="esfera.3d" />
+				</modelos>
+			</grupo>
+			<!--Staurno=LUA3-->
+			<grupo>
+				<translacao X="1" Y="-1.5" Z="0" />			
+				<escala X="0.09" Y="0.09" Z="0.09"/>
+				<modelos>
+					<modelo ficheiro="esfera.3d" />
+				</modelos>
+			</grupo>
+			<!--Staurno=LUA4-->
+			<grupo>
+				<translacao X="-2" Y="-1" Z="2" />			
+				<escala X="0.1" Y="0.1" Z="0.1"/>
+				<modelos>
+					<modelo ficheiro="esfera.3d" />
+				</modelos>
+			</grupo>
+			<!--Staurno=LUA5-->
+			<grupo>
+				<translacao X="2.5" Y="-1" Z="-2" />			
+				<escala X="0.09" Y="0.09" Z="0.09"/>
+				<modelos>
+					<modelo ficheiro="esfera.3d" />
+				</modelos>
+			</grupo>
+		</grupo>
+		<!--Urano-->
+		<grupo>
+			<translacao X="105" Y="0" Z="0" />			
+			<escala X="0.2" Y="0.2" Z="0.2"/>
+			<modelos>
+				<modelo ficheiro="esfera.3d" />
+			</modelos>
+		</grupo>
+		<!--Neptuno-->
+		<grupo>
+			<translacao X="120" Y="0" Z="0" />			
+			<escala X="0.18" Y="0.18" Z="0.18"/>
+			<modelos>
+				<modelo ficheiro="esfera.3d" />
+			</modelos>
+		</grupo>
+	
+	</grupo>	
+	</grupo>
+</cena>				
