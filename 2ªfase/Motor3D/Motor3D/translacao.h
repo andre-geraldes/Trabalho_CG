@@ -1,3 +1,5 @@
+#pragma once
+
 #include <vector>
 #include "Ponto.h"
 
@@ -15,5 +17,5 @@ public:
 	void setTransx(float a) { x = a; }
 	void setTransy(float b) { y = b; }
 	void setTransz(float c) { z = c; }
-	virtual ~Translacao();
+	virtual ~Translacao() {};
 };

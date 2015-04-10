@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Translacao.h"
 #include "Rotacao.h"
 #include "Escala.h"
@@ -16,6 +18,6 @@ class Transformacao{
 		void setTranslacao(Translacao t){ trans = t; }
 		void setRotacao(Rotacao r){ rot = r; }
 		void setEscala(Escala e){ esc = e; }
-		virtual ~Transformacao();
+		virtual ~Transformacao() {};
 
 };

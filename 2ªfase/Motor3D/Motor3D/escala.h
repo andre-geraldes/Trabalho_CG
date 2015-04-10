@@ -1,3 +1,5 @@
+#pragma once
+
 class Escala{
 	float x;
 	float y;
@@ -12,5 +14,5 @@ public:
 	void setX(float a){ x = a; }
 	void setY(float b){ y = b; }
 	void setZ(float c){ z = c; }
-	virtual ~Escala;
+	virtual ~Escala() {};
 };

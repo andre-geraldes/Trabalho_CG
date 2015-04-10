@@ -1,10 +1,16 @@
+#pragma once
+
 #include <vector>
-#include <stdlib.h>
 #include <GL\glut.h>
-#include <string>
-#include <vector>
+
 #include "ponto.h"
-#include "transformacao.h"
+#include "Transformacao.h"
+
+#include <fstream>
+#include <iostream>
+#include <string>
+
+using namespace std;
 
 class Primitiva{
 
@@ -23,5 +29,5 @@ public:
 	void setFilhos(vector<Primitiva> f){ filhos = f; }
 	void setPontos(vector<Ponto> p){ pontos = p; }
 	void setTransformacao(Transformacao t){ transformacao = t; }
-	virtual ~Primitiva();
+	virtual ~Primitiva() {};
 }; 

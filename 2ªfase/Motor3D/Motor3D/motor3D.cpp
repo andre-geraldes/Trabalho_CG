@@ -54,7 +54,7 @@ void renderScene(void)
 
 	glBegin(GL_TRIANGLES);
 	glColor3f(0.0f, 1.0f, 1.0f);
-	for (int i = 0; i < pontos.size(); i++)
+	for (size_t i = 0; i < pontos.size(); i++)
 		glVertex3f(pontos[i].getX(), pontos[i].getY(), pontos[i].getZ());
 	glEnd();
 
@@ -209,11 +209,11 @@ void readFile(string filename)
 }
 
 
-void parseGrupo(XMLElement* grupo, Transformacao transf, char familia){
+void parseGrupo(XMLElement* grupo, Transformacao transf){
 	Transformacao trans;
 	Translacao tr;
 	Rotacao ro;
-	Escala es;
+	Escala es = Escala::Escala(1, 1, 1);
 	float ang1, rotX, rotY, rotZ, transX, transY, transZ, escX, escY, escZ;
 	ang1 = rotX = rotY = rotZ = transX = transY = transZ = escX = escY = escZ = 1;
 
@@ -223,72 +223,61 @@ void parseGrupo(XMLElement* grupo, Transformacao transf, char familia){
 	//transformações para um grupo
 	XMLElement* transformacao = grupo->FirstChildElement();
 
-	/* Verifica se existem transformcoes antes dos modelos */
-	if (strcmp(transformacao->Value(), "modelos") == 0)
-		trans = transf;
-	else {
 		for (transformacao; (strcmp(transformacao->Value(), "modelos") != 0); transformacao = transformacao->NextSiblingElement()) {
-			if (strcmp(transformacao->Value(), "translacao") == 0)
+			if (strcmp(transformacao->Value(), "translacao") == 0){
 				transX = stof(transformacao->Attribute("X"));
 				transY = stof(transformacao->Attribute("Y"));
 				transZ = stof(transformacao->Attribute("Z"));
 				tr = Translacao::Translacao(transX, transY, transZ);
-			if (strcmp(transformacao->Value(), "rotacao") == 0)
-				ang1 = stof(transformacao->Attribute("angulo"));
-				rotX = stof(transformacao->Attribute("eixoX"));
-				rotY = stof(transformacao->Attribute("eixoY"));
-				rotZ = stof(transformacao->Attribute("eixoZ"));
-				ro = Rotacao::Rotacao(ang1, rotX, rotY, rotZ);
-			if (strcmp(transformacao->Value(), "escala") == 0)
-				escX = stof(transformacao->Attribute("X"));
-				escY = stof(transformacao->Attribute("Y"));
-				escZ = stof(transformacao->Attribute("Z"));
-				es = Escala::Escala(escX, escY, escZ);
-		}
+			}
+				if (strcmp(transformacao->Value(), "rotacao") == 0){
+					ang1 = stof(transformacao->Attribute("angulo"));
+					rotX = stof(transformacao->Attribute("eixoX"));
+					rotY = stof(transformacao->Attribute("eixoY"));
+					rotZ = stof(transformacao->Attribute("eixoZ"));
+					ro = Rotacao::Rotacao(ang1, rotX, rotY, rotZ);
+				}
+				if (strcmp(transformacao->Value(), "escala") == 0){
+					escX = stof(transformacao->Attribute("X"));
+					escY = stof(transformacao->Attribute("Y"));
+					escZ = stof(transformacao->Attribute("Z"));
+					es.setX(escX);
+					es.setY(escY);
+					es.setZ(escZ);
+				}
+		
 		trans = Transformacao::Transformacao(tr, ro, es);
 	}
 
 	//para o mesmo grupo, quais os modelos(ficheiros) que recebem as transformações
 	for (XMLElement* modelo = grupo->FirstChildElement("modelos")->FirstChildElement("modelo"); modelo; modelo = modelo->NextSiblingElement("modelo")) {
-		int flag;
-		Primitiva p(modelo->Attribute("ficheiro"));
-		cout << p.getNomePrimitiva() << endl;
-		flag = readFile(p.getNomePrimitiva());
+		
+		Primitiva p;
+		p.setNome(modelo->Attribute("ficheiro"));
+		cout << p.getNome() << endl;
+		readFile(p.getNome());
+		p.setPontos(pontos);
+		pontos.clear();
 
-		if (flag >= 0 && p.getNomePrimitiva().compare("teapot.3d")) {
-			p.setTransformacao(trans);
-			p.setTipo(familia);
-			int n = primitivas.size();
+		p.setTransformacao(trans);
 
-			if (n > 1 && primitivas[n - 1].getTipo() == 'I' && cc == 'F') {
-				primitivas[n - 1].adicionaFilho(p);
-			}
-			else
-				primitivas.push_back(p);
+		cout << "Translacao: " << trans.getTranslacao().getTransx() << " - " << trans.getTranslacao().getTransy() << " - " << trans.getTranslacao().getTransz() << endl;
+		cout << "Rotacao   : " << trans.getRotacao().getAngulo() << " - " << trans.getRotacao().geteixoX() << " - " << trans.getRotacao().geteixoY() << " - " << trans.getRotacao().geteixoZ() << endl;
+		cout << "Escala    : " << trans.getEscala().getX() << " - " << trans.getEscala().getY() << " - " << trans.getEscala().getZ() << endl;
 
-			cout << "TIPO: " << p.getTipo() << endl;
-			cout << "Translacao: " << trans.getTranslacao().getTime() << endl;
-			cout << "Rotacao   : " << trans.getRotacao().getRx() << " - " << trans.getRotacao().getRy() << " - " << trans.getRotacao().getRz() << endl;
-			cout << "Escala    : " << trans.getEscala().getEx() << " - " << trans.getEscala().getEy() << " - " << trans.getEscala().getEz() << endl;
-		}
-		else {
-			p.setTransformacao(trans);
-			p.setTipo(familia);
-
-			primitivas.push_back(p);
-		}
+		primitivas.push_back(p);
 	}
 
 	//faz o mesmo de cima para grupos filhos
 	if (grupo->FirstChildElement("grupo")) {
 		cout << "Vou para os Filhos" << endl;
-		parseGrupo(grupo->FirstChildElement("grupo"), trans, 'F');
+		parseGrupo(grupo->FirstChildElement("grupo"), trans);
 	}
 
 	//faz o mesmo de cima para grupos irmãos
 	if (grupo->NextSiblingElement("grupo")) {
 		cout << "Vim para os Irmaos" << endl;
-		parseGrupo(grupo->NextSiblingElement("grupo"), transf, 'I');
+		parseGrupo(grupo->NextSiblingElement("grupo"), transf);
 	}
 }
 
@@ -300,8 +289,9 @@ void readXML(string filename)
 
 	XMLElement* cena = doc.FirstChildElement("cena");
 	XMLElement* grupo = cena->FirstChildElement("grupo");
-
-	parseGrupo(grupo, 'P');
+	Transformacao t = Transformacao::Transformacao();
+	
+	parseGrupo(grupo, t);
 	
 }
 

@@ -13,5 +13,4 @@ Primitiva::Primitiva(string n, vector<Primitiva> f, vector<Ponto> p, Transformac
 	filhos = f;
 	pontos = p;
 	transformacao = t;
-
 }
