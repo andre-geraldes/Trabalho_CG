@@ -9,7 +9,7 @@ vector<Primitiva> primitivas;
 
 // Variaveis para utilização do teclado e rato:
 float xx = 0, yy = 0, zz = 0, angle = 0.0f, angle1 = 0.0f;
-float camX = 0, camY = 3, camZ = 5;
+float camX = -30, camY = 30, camZ = 20;
 int startX, startY, tracking = 0;
 
 size_t teste = 0;
@@ -53,7 +53,7 @@ void renderScene(void)
 	glTranslatef(xx, yy, zz);
 	glRotatef(angle, 0.0f, 1.0f, 0.0f);
 	glRotatef(angle1, 1.0f, 0.0f, 0.0f);
-
+	int fy = 1;
 	for (size_t j = 0; j < primitivas.size(); j++){
 		glPushMatrix();
 		Transformacao t = primitivas[j].getTransformacao();
@@ -64,7 +64,8 @@ void renderScene(void)
 		pontos.clear();
 		pontos = primitivas[j].getPontos();
 		glBegin(GL_TRIANGLES);
-		glColor3f(0.0f, 1.0f, 1.0f);
+		if (fy) { glColor3f(1.0f, 1.0f, 0.0f); fy = 0; }
+		else glColor3f(0.0f, 0.9f, 1.0f);
 		for (size_t i = 0; i < pontos.size(); i++)
 			glVertex3f(pontos[i].getX(), pontos[i].getY(), pontos[i].getZ());
 		glEnd();
