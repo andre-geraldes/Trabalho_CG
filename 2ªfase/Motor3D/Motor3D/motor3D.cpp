@@ -235,7 +235,6 @@ void parseGrupo(XMLElement* grupo, Transformacao transf){
 	if (strcmp(grupo->FirstChildElement()->Value(), "grupo") == 0)
 		grupo = grupo->FirstChildElement();
 
-	
 	//transformações para um grupo
 	XMLElement* transformacao = grupo->FirstChildElement();
 
@@ -271,19 +270,19 @@ void parseGrupo(XMLElement* grupo, Transformacao transf){
 			es.setY(escY);
 			es.setZ(escZ);
 		}
-		//Actualizacao dos valores em relação ao nodo pai
-		tr.setTransx(tr.getTransx() + transf.getTranslacao().getTransx());
-		tr.setTransy(tr.getTransy() + transf.getTranslacao().getTransy());
-		tr.setTransz(tr.getTransz() + transf.getTranslacao().getTransz());
-		ro.setAngulo(ro.getAngulo() + transf.getRotacao().getAngulo());
-		ro.setEixoX(ro.geteixoX() + transf.getRotacao().geteixoX());
-		ro.setEixoY(ro.geteixoY() + transf.getRotacao().geteixoY());
-		ro.setEixoZ(ro.geteixoZ() + transf.getRotacao().geteixoZ());
-		es.setX(es.getX() * transf.getEscala().getX());
-		es.setY(es.getY() * transf.getEscala().getY());
-		es.setZ(es.getZ() * transf.getEscala().getZ());
-		trans = Transformacao::Transformacao(tr, ro, es);
 	}
+	//Actualizacao dos valores em relação ao nodo pai
+	tr.setTransx(tr.getTransx() + transf.getTranslacao().getTransx());
+	tr.setTransy(tr.getTransy() + transf.getTranslacao().getTransy());
+	tr.setTransz(tr.getTransz() + transf.getTranslacao().getTransz());
+	ro.setAngulo(ro.getAngulo() + transf.getRotacao().getAngulo());
+	ro.setEixoX(ro.geteixoX() + transf.getRotacao().geteixoX());
+	ro.setEixoY(ro.geteixoY() + transf.getRotacao().geteixoY());
+	ro.setEixoZ(ro.geteixoZ() + transf.getRotacao().geteixoZ());
+	es.setX(es.getX() * transf.getEscala().getX());
+	es.setY(es.getY() * transf.getEscala().getY());
+	es.setZ(es.getZ() * transf.getEscala().getZ());
+	trans = Transformacao::Transformacao(tr, ro, es);
 		
 	//para o mesmo grupo, quais os modelos(ficheiros) que recebem as transformações
 	for (XMLElement* modelo = grupo->FirstChildElement("modelos")->FirstChildElement("modelo"); modelo; modelo = modelo->NextSiblingElement("modelo")) {
