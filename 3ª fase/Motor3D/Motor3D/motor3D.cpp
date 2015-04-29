@@ -8,8 +8,10 @@ vector<Primitiva> primitivas;
 #define CONST 1.0f;
 
 // Variaveis para utilização do teclado e rato:
-float xx = 0, yy = 0, zz = 0, angle = 0.0f, angle1 = 0.0f, radius = 5.0f;
+float radius = 5.0f;
 float camX = -30, camY = 30, camZ = 20;
+float anguloX = 0.0f, anguloY = 0.0f, anguloZ = 0.0f;
+float coordX = 0, coordY = 0, coordZ = 0;
 int startX, startY, tracking = 0;
 
 /* VBOs */
@@ -77,18 +79,24 @@ void renderScene(void)
 		0.0, 0.0, 0.0,
 		0.0f, 1.0f, 0.0f);
 
-	glTranslatef(xx, yy, zz);
-	glRotatef(angle, 0.0f, 1.0f, 0.0f);
-	glRotatef(angle1, 1.0f, 0.0f, 0.0f);
+
+	glRotatef(anguloX, 1, 0, 0);
+	glRotatef(anguloY, 0, 1, 0);
+	glRotatef(anguloZ, 0, 0, 1);
+	glTranslatef(coordX, coordY, coordZ);
+
 	int fy = 1;
 	for (size_t j = 0; j < primitivas.size(); j++){
 		glPushMatrix();
 		Transformacao t = primitivas[j].getTransformacao();
 
-		glRotatef(t.getRotacao().getAngulo(), t.getRotacao().geteixoX(), t.getRotacao().geteixoY(), t.getRotacao().geteixoZ());
 		glTranslatef(t.getTranslacao().getTransx(), t.getTranslacao().getTransy(), t.getTranslacao().getTransz());
+		if (t.getRotacao().getTime() != 0){
+			float r = glutGet(GLUT_ELAPSED_TIME) % (int)(t.getRotacao().getTime() * 1000);
+			float gr = (r * 360) / (t.getRotacao().getTime() * 1000);
+			glRotatef(gr, t.getRotacao().geteixoX(), t.getRotacao().geteixoY(), t.getRotacao().geteixoZ());
+		}
 		glScalef(t.getEscala().getX(), primitivas[j].getTransformacao().getEscala().getY(), primitivas[j].getTransformacao().getEscala().getZ());
-
 		if (fy) { glColor3f(1.0f, 1.0f, 0.0f); fy = 0; }
 		else glColor3f(0.0f, 0.9f, 1.0f);
 		//primitivas[j].preparar();
@@ -105,35 +113,43 @@ void renderScene(void)
 
 
 // Funções de processamento do teclado
-void normalkeyboard(unsigned char tecla, int x, int y) 
-{
+void resetCamara() {
+	anguloX = anguloY = anguloZ = 0.0f;
+	coordX = coordY = coordZ = 0;
+	alpha = 0.0f;
+	beta = 0.5f;
+}
+
+void normalkeyboard(unsigned char tecla, int x, int y) {
 	switch (tecla) {
-	case 'a':
-	case 'A': xx -= CONST; break;
-	case 'd':
-	case 'D': xx += CONST; break;
-	case 'w':
-	case 'W': yy += CONST; break;
-	case 's':
-	case 'S': yy -= CONST; break;
-	case 'e':
-	case 'E': zz -= CONST; break;
-	case 'q':
-	case 'Q': zz += CONST; break;
+	case 'W':;
+	case 'w': anguloX += 1; break;
+	case 'S':;
+	case 's': anguloX -= 1; break;
+	case 'A':;
+	case 'a': anguloY += 1; break;
+	case 'D':;
+	case 'd': anguloY -= 1; break;
+	case 'q':;
+	case 'Q': anguloZ += 1; break;
+	case 'e':;
+	case 'E': anguloZ -= 1; break;
+	case 'R':;
+	case 'r': resetCamara(); break;
+	case '+': coordZ += 0.5f; break;
+	case '-': coordZ -= 0.5f; break;
 	}
 	glutPostRedisplay();
 }
 
-void specialKeys(int key, int x, int y) 
-{
+
+void specialKeys(int key, int x, int y) {
 	switch (key) {
-	case GLUT_KEY_LEFT: angle -= 5.0f; break;
-	case GLUT_KEY_RIGHT: angle += 5.0f; break;
-	case GLUT_KEY_UP: angle1 += 5.0f; break;
-	case GLUT_KEY_DOWN: angle1 -= 5.0f; break;
+	case GLUT_KEY_UP: coordY += 1; break;
+	case GLUT_KEY_DOWN: coordY -= 1; break;
+	case GLUT_KEY_LEFT: coordX -= 1; break;
+	case GLUT_KEY_RIGHT: coordX += 1; break;
 	}
-	//converte();
-	glutPostRedisplay();
 }
 
 // Funções de processamento do rato
@@ -248,7 +264,7 @@ void parseGrupo(XMLElement* grupo, Transformacao transf){
 	Translacao tr;
 	Rotacao ro;
 	Escala es = Escala::Escala(1,1,1);
-	float ang1, rotX, rotY, rotZ, transX, transY, transZ, escX, escY, escZ;
+	float ang1, rotX, rotY, rotZ, transX, transY, transZ, escX, escY, escZ, time;
 	ang1 = rotX = rotY = rotZ = transX = transY = transZ = escX = escY = escZ = 1;
 
 	if (strcmp(grupo->FirstChildElement()->Value(), "grupo") == 0)
@@ -268,15 +284,15 @@ void parseGrupo(XMLElement* grupo, Transformacao transf){
 			tr = Translacao::Translacao(transX, transY, transZ);
 		}
 		if (strcmp(transformacao->Value(), "rotacao") == 0){
-			if (transformacao->Attribute("angulo")) ang1 = stof(transformacao->Attribute("angulo"));
-			else ang1 = 0;
+			if (transformacao->Attribute("tempo")) time = stof(transformacao->Attribute("tempo"));
+			else time = 1;
 			if (transformacao->Attribute("eixoX")) rotX = stof(transformacao->Attribute("eixoX"));
 			else rotX = 0;
 			if (transformacao->Attribute("eixoY")) rotY = stof(transformacao->Attribute("eixoY"));
 			else rotY = 0;
 			if (transformacao->Attribute("eixoZ")) rotZ = stof(transformacao->Attribute("eixoZ"));
 			else rotZ = 0;
-			ro = Rotacao::Rotacao(ang1, rotX, rotY, rotZ);
+			ro = Rotacao::Rotacao(rotX, rotY, rotZ, time);
 		}
 		if (strcmp(transformacao->Value(), "escala") == 0){
 			if (transformacao->Attribute("X")) escX = stof(transformacao->Attribute("X"));
@@ -294,7 +310,7 @@ void parseGrupo(XMLElement* grupo, Transformacao transf){
 	tr.setTransx(tr.getTransx() + transf.getTranslacao().getTransx());
 	tr.setTransy(tr.getTransy() + transf.getTranslacao().getTransy());
 	tr.setTransz(tr.getTransz() + transf.getTranslacao().getTransz());
-	ro.setAngulo(ro.getAngulo() + transf.getRotacao().getAngulo());
+	ro.setTime(ro.getTime() + transf.getRotacao().getTime());
 	ro.setEixoX(ro.geteixoX() + transf.getRotacao().geteixoX());
 	ro.setEixoY(ro.geteixoY() + transf.getRotacao().geteixoY());
 	ro.setEixoZ(ro.geteixoZ() + transf.getRotacao().geteixoZ());
@@ -316,7 +332,7 @@ void parseGrupo(XMLElement* grupo, Transformacao transf){
 		p.setTransformacao(trans);
 
 		cout << "Translacao: " << trans.getTranslacao().getTransx() << " - " << trans.getTranslacao().getTransy() << " - " << trans.getTranslacao().getTransz() << endl;
-		cout << "Rotacao   : " << trans.getRotacao().getAngulo() << " - " << trans.getRotacao().geteixoX() << " - " << trans.getRotacao().geteixoY() << " - " << trans.getRotacao().geteixoZ() << endl;
+		cout << "Rotacao   : " << trans.getRotacao().getTime() << " - " << trans.getRotacao().geteixoX() << " - " << trans.getRotacao().geteixoY() << " - " << trans.getRotacao().geteixoZ() << endl;
 		cout << "Escala    : " << trans.getEscala().getX() << " - " << trans.getEscala().getY() << " - " << trans.getEscala().getZ() << endl;
 
 		primitivas.push_back(p);
