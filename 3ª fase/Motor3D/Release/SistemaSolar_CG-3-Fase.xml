@@ -3,7 +3,7 @@
 			<!--Sol-->
 			<grupo>
 				<escala X="2.0" Y="2.0" Z="2.0"/>
-				<rotacao tempo="60.9" eixoX="0" eixoY="1" eixoZ="0" />
+				<rotacao tempo="5" eixoX="0" eixoY="1" eixoZ="0" />
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>
 				</modelos>
@@ -11,8 +11,17 @@
 
 			<!--Mercúrio-->
 			<grupo>
-				<translacao X="18" Y="0" Z="0" />
-				<rotacao tempo="140.7" eixoX="0" eixoY="1" eixoZ="0" />
+				<translacao tempo="4.4">
+					<ponto X="20" Y="0" Z="0" />
+					<ponto X="14" Y="0" Z="-14" />
+					<ponto X="0" Y="0" Z="-20" />
+					<ponto X="-14" Y="0" Z="-14" />
+					<ponto X="-20" Y="0" Z="0" />
+					<ponto X="-14" Y="0" Z="14" />
+					<ponto X="0" Y="0" Z="20" />
+					<ponto X="14" Y="0" Z="14" />
+				</translacao>
+				<rotacao tempo="5" eixoX="0" eixoY="1" eixoZ="0" />
 				<escala X="0.1" Y="0.1" Z="0.1"/>
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>
@@ -21,8 +30,17 @@
 
 			<!--Vénus-->
 			<grupo>
-				<translacao X="33.5" Y="0" Z="0" />
-				<rotacao tempo="-583.2" eixoX="0" eixoY="1" eixoZ="0" />
+				<translacao tempo="11.2">
+					<ponto X="35" Y="0" Z="0" />
+					<ponto X="24.5" Y="0" Z="-24.5" />
+					<ponto X="0" Y="0" Z="-35" />
+					<ponto X="-24.5" Y="0" Z="-24.5" />
+					<ponto X="-35" Y="0" Z="0" />
+					<ponto X="-24.5" Y="0" Z="24.5" />
+					<ponto X="0" Y="0" Z="35" />
+					<ponto X="24.5" Y="0" Z="24.5" />
+				</translacao>
+				<rotacao tempo="5" eixoX="0" eixoY="1" eixoZ="0" />
 				<escala X="0.3" Y="0.3" Z="0.3"/>
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>
@@ -31,7 +49,16 @@
 
 			<!--Terra-->
 			<grupo>
-				<translacao X="46.5" Y="0" Z="0" />
+				<translacao tempo="18.25">
+					<ponto X="50" Y="0" Z="0" />
+					<ponto X="35" Y="0" Z="-35" />
+					<ponto X="0" Y="0" Z="-50" />
+					<ponto X="-35" Y="0" Z="-35" />
+					<ponto X="-50" Y="0" Z="0" />
+					<ponto X="-35" Y="0" Z="35" />
+					<ponto X="0" Y="0" Z="50" />
+					<ponto X="35" Y="0" Z="35" />
+				</translacao>
 				<rotacao tempo="2.4" eixoX="0" eixoY="1" eixoZ="0" />
 				<escala X="0.14" Y="0.14" Z="0.14"/>
 				<modelos>
@@ -40,8 +67,17 @@
 
 				<!--Lua-->
 					<grupo>
-						<translacao X="1" Y="1" Z="1" />
-						<rotacao tempo="65.5" eixoX="0" eixoY="1" eixoZ="0" />
+						<translacao tempo="10">
+							<ponto X="3" Y="0" Z="0" />
+							<ponto X="2.1" Y="0" Z="-2.1" />
+							<ponto X="0" Y="0" Z="-3" />
+							<ponto X="-2.1" Y="0" Z="-2.1" />
+							<ponto X="-3" Y="0" Z="0" />
+							<ponto X="-2.1" Y="0" Z="2.1" />
+							<ponto X="0" Y="0" Z="3" />
+							<ponto X="2.1" Y="0" Z="2.1" />
+						</translacao>
+						<rotacao tempo="5" eixoX="0" eixoY="1" eixoZ="0" />
 						<escala X="0.3" Y="0.30" Z="0.30"/>
 						<modelos>
 							<modelo ficheiro="esfera.3d"/>
@@ -52,8 +88,17 @@
 
 			<!--Marte-->
 			<grupo>
-				<translacao X="70.1" Y="0" Z="0" />
-				<rotacao tempo="2.4" eixoX="0" eixoY="1" eixoZ="0" />
+				<translacao tempo="34.35">
+					<ponto X="70" Y="0" Z="0" />
+					<ponto X="49" Y="0" Z="-49" />
+					<ponto X="0" Y="0" Z="-70" />
+					<ponto X="-49" Y="0" Z="-49" />
+					<ponto X="-70" Y="0" Z="0" />
+					<ponto X="-49" Y="0" Z="49" />
+					<ponto X="0" Y="0" Z="70" />
+					<ponto X="49" Y="0" Z="49" />
+				</translacao>
+				<rotacao tempo="5" eixoX="0" eixoY="1" eixoZ="0" />
 				<escala X="0.1" Y="0.1" Z="0.1"/>
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>
@@ -62,9 +107,18 @@
 
 			<!--Júpiter-->
 			<grupo>
-				<translacao X="120.75" Y="0" Z="0" />
-				<rotacao tempo="0.9" eixoX="0" eixoY="1" eixoZ="0" />
-				<escala X="4.1" Y="4.1" Z="4.1"/>
+				<translacao tempo="216.6">
+					<ponto X="110" Y="0" Z="0" />
+					<ponto X="77" Y="0" Z="-77" />
+					<ponto X="0" Y="0" Z="-110" />
+					<ponto X="-77" Y="0" Z="-77" />
+					<ponto X="-110" Y="0" Z="0" />
+					<ponto X="-77" Y="0" Z="77" />
+					<ponto X="0" Y="0" Z="110" />
+					<ponto X="77" Y="0" Z="77" />
+				</translacao>
+				<rotacao tempo="5" eixoX="0" eixoY="1" eixoZ="0" />
+				<escala X="2" Y="2" Z="2"/>
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>
 				</modelos>
@@ -72,9 +126,18 @@
 
 			<!--Saturno-->
 			<grupo>
-				<translacao X="221.5" Y="0" Z="0" />
-				<escala X="3.3" Y="3.3" Z="3.3"/>
-				<rotacao tempo="1" eixoX="0" eixoY="1" eixoZ="0" />
+				<translacao tempo="538">
+					<ponto X="221" Y="0" Z="0" />
+					<ponto X="154.7" Y="0" Z="-154.7" />
+					<ponto X="0" Y="0" Z="-221" />
+					<ponto X="-154.7" Y="0" Z="-154.7" />
+					<ponto X="-221" Y="0" Z="0" />
+					<ponto X="-154.7" Y="0" Z="154.7" />
+					<ponto X="0" Y="0" Z="221" />
+					<ponto X="154.7" Y="0" Z="154.7" />
+				</translacao>
+				<rotacao tempo="5" eixoX="0" eixoY="1" eixoZ="0" />
+				<escala X="2" Y="2" Z="2"/>
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>
 				</modelos>
@@ -82,8 +145,17 @@
 
 			<!--Urano-->
 			<grupo>
-				<translacao X="297" Y="0" Z="0" />
-				<rotacao tempo="-1.7" eixoX="0" eixoY="1" eixoZ="0" />
+				<translacao tempo="1535">
+					<ponto X="297" Y="0" Z="0" />
+					<ponto X="210" Y="0" Z="-210" />
+					<ponto X="0" Y="0" Z="-297" />
+					<ponto X="-210" Y="0" Z="-210" />
+					<ponto X="-297" Y="0" Z="0" />
+					<ponto X="-210" Y="0" Z="210" />
+					<ponto X="0" Y="0" Z="297" />
+					<ponto X="210" Y="0" Z="210" />
+				</translacao>
+				<rotacao tempo="5" eixoX="0" eixoY="1" eixoZ="0" />
 				<escala X="1.3" Y="1.3" Z="1.3"/>
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>
@@ -92,8 +164,17 @@
 
 			<!--Neptuno-->
 			<grupo>
-				<translacao X="349.25" Y="0" Z="0" />
-				<rotacao tempo="1.6" eixoX="0" eixoY="1" eixoZ="0" />
+				<translacao tempo="3010">
+					<ponto X="350" Y="0" Z="0" />
+					<ponto X="245" Y="0" Z="-245" />
+					<ponto X="0" Y="0" Z="-350" />
+					<ponto X="-245" Y="0" Z="-245" />
+					<ponto X="-350" Y="0" Z="0" />
+					<ponto X="-245" Y="0" Z="245" />
+					<ponto X="0" Y="0" Z="350" />
+					<ponto X="245" Y="0" Z="245" />
+				</translacao>
+				<rotacao tempo="5" eixoX="0" eixoY="1" eixoZ="0" />
 				<escala X="1.3" Y="1.3" Z="1.3"/>
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>

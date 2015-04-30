@@ -70,8 +70,21 @@ void changeSize(int w, int h)
 	glMatrixMode(GL_MODELVIEW);
 }
 
+void renderCatmullRomCurve(vector<Ponto> pontos) {
+	int n = pontos.size();
+	float pp[3];
+
+	glBegin(GL_LINE_LOOP);
+	for (int i = 0; i < n; i++) {
+		pp[0] = pontos[i].getX(); pp[1] = pontos[i].getY(); pp[2] = pontos[i].getZ();
+		glVertex3fv(pp);
+	}
+	glEnd();
+}
+
 void renderScene(void) 
 {
+	float res[3];
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glLoadIdentity();
@@ -90,17 +103,29 @@ void renderScene(void)
 		glPushMatrix();
 		Transformacao t = primitivas[j].getTransformacao();
 
-		glTranslatef(t.getTranslacao().getTransx(), t.getTranslacao().getTransy(), t.getTranslacao().getTransz());
+		if (fy) { glColor3f(1.0f, 1.0f, 0.0f); fy = 0; }
+		else glColor3f(0.0f, 0.9f, 1.0f);
+
+		if (t.getTranslacao().getTime() != 0){
+			float te = glutGet(GLUT_ELAPSED_TIME) % (int)(t.getTranslacao().getTime() * 1000);
+			float gt = te / (t.getTranslacao().getTime() * 1000);
+			vector<Ponto> vp = t.getTranslacao().getPontosTrans();
+			renderCatmullRomCurve(t.getTranslacao().getPontosCurva());
+			t.getTranslacao().getGlobalCatmullRomPoint(gt, res, vp);
+			glTranslatef(res[0], res[1], res[2]);
+		}
 		if (t.getRotacao().getTime() != 0){
 			float r = glutGet(GLUT_ELAPSED_TIME) % (int)(t.getRotacao().getTime() * 1000);
 			float gr = (r * 360) / (t.getRotacao().getTime() * 1000);
 			glRotatef(gr, t.getRotacao().geteixoX(), t.getRotacao().geteixoY(), t.getRotacao().geteixoZ());
 		}
 		glScalef(t.getEscala().getX(), primitivas[j].getTransformacao().getEscala().getY(), primitivas[j].getTransformacao().getEscala().getZ());
-		if (fy) { glColor3f(1.0f, 1.0f, 0.0f); fy = 0; }
-		else glColor3f(0.0f, 0.9f, 1.0f);
+		
+		//VBOs
 		//primitivas[j].preparar();
 		primitivas[j].desenhar();
+
+		//Modo imediato
 		//primitivas[j].construir();
 		
 		glPopMatrix();
@@ -123,21 +148,21 @@ void resetCamara() {
 void normalkeyboard(unsigned char tecla, int x, int y) {
 	switch (tecla) {
 	case 'W':;
-	case 'w': anguloX += 1; break;
+	case 'w': anguloX += 5; break;
 	case 'S':;
-	case 's': anguloX -= 1; break;
+	case 's': anguloX -= 5; break;
 	case 'A':;
-	case 'a': anguloY += 1; break;
+	case 'a': anguloY += 5; break;
 	case 'D':;
-	case 'd': anguloY -= 1; break;
+	case 'd': anguloY -= 5; break;
 	case 'q':;
-	case 'Q': anguloZ += 1; break;
+	case 'Q': anguloZ += 5; break;
 	case 'e':;
-	case 'E': anguloZ -= 1; break;
+	case 'E': anguloZ -= 5; break;
 	case 'R':;
 	case 'r': resetCamara(); break;
-	case '+': coordZ += 0.5f; break;
-	case '-': coordZ -= 0.5f; break;
+	case '+': coordZ += 5.0f; break;
+	case '-': coordZ -= 5.0f; break;
 	}
 	glutPostRedisplay();
 }
@@ -145,10 +170,10 @@ void normalkeyboard(unsigned char tecla, int x, int y) {
 
 void specialKeys(int key, int x, int y) {
 	switch (key) {
-	case GLUT_KEY_UP: coordY += 1; break;
-	case GLUT_KEY_DOWN: coordY -= 1; break;
-	case GLUT_KEY_LEFT: coordX -= 1; break;
-	case GLUT_KEY_RIGHT: coordX += 1; break;
+	case GLUT_KEY_UP: coordY += 5; break;
+	case GLUT_KEY_DOWN: coordY -= 5; break;
+	case GLUT_KEY_LEFT: coordX -= 5; break;
+	case GLUT_KEY_RIGHT: coordX += 5; break;
 	}
 }
 
@@ -275,17 +300,38 @@ void parseGrupo(XMLElement* grupo, Transformacao transf){
 
 	for (transformacao; (strcmp(transformacao->Value(), "modelos") != 0); transformacao = transformacao->NextSiblingElement()) {
 		if (strcmp(transformacao->Value(), "translacao") == 0){
-			if(transformacao->Attribute("X")) transX = stof(transformacao->Attribute("X"));
-			else transX = 0;
-			if (transformacao->Attribute("Y")) transY = stof(transformacao->Attribute("Y"));
-			else transY = 0;
-			if (transformacao->Attribute("Z")) transZ = stof(transformacao->Attribute("Z"));
-			else transZ = 0;
-			tr = Translacao::Translacao(transX, transY, transZ);
+			if(transformacao->Attribute("tempo")) time = stof(transformacao->Attribute("tempo"));
+			else time = 0;
+			vector<Ponto> trpontos;
+			int k = 0;
+			for (XMLElement* ponto = transformacao->FirstChildElement("ponto"); ponto; ponto = ponto->NextSiblingElement("ponto")) {
+				transX = transY = transZ = 0;
+
+				if (ponto->Attribute("X"))
+					transX = stof(ponto->Attribute("X"));
+
+				if (ponto->Attribute("Y"))
+					transY = stof(ponto->Attribute("Y"));
+
+				if (ponto->Attribute("Z"))
+					transZ = stof(ponto->Attribute("Z"));
+
+				if (transf.getTranslacao().getTime() != 0){
+					transX = transX + transf.getTranslacao().getPontosTrans()[k].getX();
+					transY = transY + transf.getTranslacao().getPontosTrans()[k].getY();
+					transZ = transZ + transf.getTranslacao().getPontosTrans()[k].getZ();
+					k++;
+				}
+
+				Ponto pt = Ponto::Ponto(transX, transY, transZ);
+				trpontos.push_back(pt);
+			}
+			tr = Translacao::Translacao(time, trpontos, trpontos.size());
+			tr.execCurvas();
 		}
 		if (strcmp(transformacao->Value(), "rotacao") == 0){
 			if (transformacao->Attribute("tempo")) time = stof(transformacao->Attribute("tempo"));
-			else time = 1;
+			else time = 0;
 			if (transformacao->Attribute("eixoX")) rotX = stof(transformacao->Attribute("eixoX"));
 			else rotX = 0;
 			if (transformacao->Attribute("eixoY")) rotY = stof(transformacao->Attribute("eixoY"));
@@ -307,13 +353,13 @@ void parseGrupo(XMLElement* grupo, Transformacao transf){
 		}
 	}
 	//Actualizacao dos valores em relação ao nodo pai
-	tr.setTransx(tr.getTransx() + transf.getTranslacao().getTransx());
-	tr.setTransy(tr.getTransy() + transf.getTranslacao().getTransy());
-	tr.setTransz(tr.getTransz() + transf.getTranslacao().getTransz());
-	ro.setTime(ro.getTime() + transf.getRotacao().getTime());
-	ro.setEixoX(ro.geteixoX() + transf.getRotacao().geteixoX());
-	ro.setEixoY(ro.geteixoY() + transf.getRotacao().geteixoY());
-	ro.setEixoZ(ro.geteixoZ() + transf.getRotacao().geteixoZ());
+	//tr.setTransx(tr.getTransx() + transf.getTranslacao().getTransx());
+	//tr.setTransy(tr.getTransy() + transf.getTranslacao().getTransy());
+	//tr.setTransz(tr.getTransz() + transf.getTranslacao().getTransz());
+	ro.setTime(ro.getTime() /*+ transf.getRotacao().getTime()*/);
+	ro.setEixoX(ro.geteixoX() /*+ transf.getRotacao().geteixoX()*/);
+	ro.setEixoY(ro.geteixoY() /*+ transf.getRotacao().geteixoY()*/);
+	ro.setEixoZ(ro.geteixoZ() /*+ transf.getRotacao().geteixoZ()*/);
 	es.setX(es.getX() * transf.getEscala().getX());
 	es.setY(es.getY() * transf.getEscala().getY());
 	es.setZ(es.getZ() * transf.getEscala().getZ());
@@ -331,7 +377,7 @@ void parseGrupo(XMLElement* grupo, Transformacao transf){
 
 		p.setTransformacao(trans);
 
-		cout << "Translacao: " << trans.getTranslacao().getTransx() << " - " << trans.getTranslacao().getTransy() << " - " << trans.getTranslacao().getTransz() << endl;
+		cout << "Translacao: " << trans.getTranslacao().getTime() << endl;
 		cout << "Rotacao   : " << trans.getRotacao().getTime() << " - " << trans.getRotacao().geteixoX() << " - " << trans.getRotacao().geteixoY() << " - " << trans.getRotacao().geteixoZ() << endl;
 		cout << "Escala    : " << trans.getEscala().getX() << " - " << trans.getEscala().getY() << " - " << trans.getEscala().getZ() << endl;
 
@@ -362,6 +408,9 @@ void readXML(string filename)
 	Transformacao t = Transformacao::Transformacao();
 	Escala e;
 	e = Escala::Escala(1, 1, 1);
+	Translacao trans;
+	trans = Translacao::Translacao();
+	t.setTranslacao(trans);
 	t.setEscala(e);
 	parseGrupo(grupo, t);
 }

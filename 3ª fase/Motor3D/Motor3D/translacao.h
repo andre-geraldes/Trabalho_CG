@@ -3,19 +3,25 @@
 #include <vector>
 #include "Ponto.h"
 
+using namespace std;
+
 class Translacao{
-	float x;
-	float y;
-	float z;
+	float time;
+	int tam;
+	vector<Ponto> pontosTrans;
+	vector<Ponto> pontosCurva;
 
 public:
 	Translacao();
-	Translacao(float, float, float);
-	float getTransx() { return x; }
-	float getTransy() { return y; }
-	float getTransz() { return z; }
-	void setTransx(float a) { x = a; }
-	void setTransy(float b) { y = b; }
-	void setTransz(float c) { z = c; }
+	Translacao(float);
+	Translacao(float, vector<Ponto>, int);
+	vector<Ponto> getPontosTrans(){ return pontosTrans; }
+	vector<Ponto> getPontosCurva(){ return pontosCurva; }
+	float getTime(){ return time; }
+	void setTime(float t) { time = t; }
+	void setPontosTrans(vector<Ponto> p){ pontosTrans = p; }
+	void setPontosCurva(vector<Ponto> p){ pontosCurva = p; }
+	void Translacao::getGlobalCatmullRomPoint(float, float *, vector<Ponto>);
+	void Translacao::execCurvas();
 	virtual ~Translacao() {};
 };

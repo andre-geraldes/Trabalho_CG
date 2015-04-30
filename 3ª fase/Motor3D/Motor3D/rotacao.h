@@ -1,5 +1,8 @@
 #pragma once
 
+#include <vector>
+#include "ponto.h"
+
 class Rotacao{
 	float time;
 	float eixoX;
