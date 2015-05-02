@@ -106,8 +106,9 @@ void renderScene(void)
 		Transformacao t = primitivas[j].getTransformacao();
 
 		//Colorir o sol de amarelo
-		if (fy) { glColor3f(1.0f, 1.0f, 0.0f); fy = 0; }
+		/* if (fy) { glColor3f(1.0f, 1.0f, 0.0f); fy = 0; }
 		else glColor3f(0.0f, 0.9f, 1.0f);
+		*/
 
 		//Desenhar primitiva (p.e. planetas)
 		if (t.getTranslacao().getTime() != 0){
@@ -412,7 +413,17 @@ void parseGrupo(XMLElement* grupo, Transformacao transf, char parent){
 		if (parent == 'F'){
 			int q = primitivas.size() - 1;
 			primitivas[q].setFilho(p);
-		} else primitivas.push_back(p);
+		}
+		else if (parent == 'P'){
+			int q = primitivas.size() - 1;
+			primitivas[q].setFilho(p);
+		}
+		else primitivas.push_back(p);
+	}
+
+	//Se for filho e tiver irmaos:
+	if (grupo->NextSiblingElement("grupo") && (parent == 'F' || parent == 'P')) {
+		parseGrupo(grupo->NextSiblingElement("grupo"), transf, 'P');
 	}
 
 	//Se tiver elementos "filhos":
@@ -422,7 +433,7 @@ void parseGrupo(XMLElement* grupo, Transformacao transf, char parent){
 	}
 
 	//Elementos "irmãos"
-	if (grupo->NextSiblingElement("grupo")) {
+	if (grupo->NextSiblingElement("grupo") && parent != 'F' && parent != 'P') {
 		parseGrupo(grupo->NextSiblingElement("grupo"), transf, 'I');
 	}
 }
