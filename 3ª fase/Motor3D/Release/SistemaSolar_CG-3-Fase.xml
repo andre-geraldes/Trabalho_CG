@@ -60,7 +60,7 @@
 					<ponto X="35" Y="0" Z="35" />
 				</translacao>
 				<rotacao tempo="2.4" eixoX="0" eixoY="1" eixoZ="0" />
-				<escala X="0.14" Y="0.14" Z="0.14"/>
+				<escala X="0.3" Y="0.3" Z="0.3"/>
 				<modelos>
 					<modelo ficheiro="esfera.3d"/>
 				</modelos>
@@ -68,17 +68,17 @@
 				<!--Lua-->
 					<grupo>
 						<translacao tempo="10">
-							<ponto X="3" Y="0" Z="0" />
-							<ponto X="2.1" Y="0" Z="-2.1" />
-							<ponto X="0" Y="0" Z="-3" />
-							<ponto X="-2.1" Y="0" Z="-2.1" />
-							<ponto X="-3" Y="0" Z="0" />
-							<ponto X="-2.1" Y="0" Z="2.1" />
-							<ponto X="0" Y="0" Z="3" />
-							<ponto X="2.1" Y="0" Z="2.1" />
+							<ponto X="12" Y="0" Z="0" />
+							<ponto X="8.4" Y="-8.4" Z="0" />
+							<ponto X="0" Y="-12" Z="0" />
+							<ponto X="-8.4" Y="-8.4" Z="0" />
+							<ponto X="-12" Y="0" Z="0" />
+							<ponto X="-8.4" Y="8.4" Z="0" />
+							<ponto X="0" Y="12" Z="0" />
+							<ponto X="8.4" Y="8.4" Z="0" />
 						</translacao>
 						<rotacao tempo="5" eixoX="0" eixoY="1" eixoZ="0" />
-						<escala X="0.3" Y="0.30" Z="0.30"/>
+						<escala X="0.5" Y="0.5" Z="0.5"/>
 						<modelos>
 							<modelo ficheiro="esfera.3d"/>
 						</modelos>

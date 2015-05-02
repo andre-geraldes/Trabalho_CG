@@ -3,6 +3,7 @@
 // Vector com os pontos lidos do ficheiro:
 vector<Ponto> pontos;
 
+// Primitivas do sistema solar
 vector<Primitiva> primitivas;
 
 #define CONST 1.0f;
@@ -85,6 +86,7 @@ void renderCatmullRomCurve(vector<Ponto> pontos) {
 void renderScene(void) 
 {
 	float res[3];
+	float te, gt, r, gr;
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glLoadIdentity();
@@ -103,23 +105,54 @@ void renderScene(void)
 		glPushMatrix();
 		Transformacao t = primitivas[j].getTransformacao();
 
+		//Colorir o sol de amarelo
 		if (fy) { glColor3f(1.0f, 1.0f, 0.0f); fy = 0; }
 		else glColor3f(0.0f, 0.9f, 1.0f);
 
+		//Desenhar primitiva (p.e. planetas)
 		if (t.getTranslacao().getTime() != 0){
-			float te = glutGet(GLUT_ELAPSED_TIME) % (int)(t.getTranslacao().getTime() * 1000);
-			float gt = te / (t.getTranslacao().getTime() * 1000);
+			te = glutGet(GLUT_ELAPSED_TIME) % (int)(t.getTranslacao().getTime() * 1000);
+			gt = te / (t.getTranslacao().getTime() * 1000);
 			vector<Ponto> vp = t.getTranslacao().getPontosTrans();
 			renderCatmullRomCurve(t.getTranslacao().getPontosCurva());
 			t.getTranslacao().getGlobalCatmullRomPoint(gt, res, vp);
+			vp.clear();
 			glTranslatef(res[0], res[1], res[2]);
 		}
 		if (t.getRotacao().getTime() != 0){
-			float r = glutGet(GLUT_ELAPSED_TIME) % (int)(t.getRotacao().getTime() * 1000);
-			float gr = (r * 360) / (t.getRotacao().getTime() * 1000);
+			r = glutGet(GLUT_ELAPSED_TIME) % (int)(t.getRotacao().getTime() * 1000);
+			gr = (r * 360) / (t.getRotacao().getTime() * 1000);
 			glRotatef(gr, t.getRotacao().geteixoX(), t.getRotacao().geteixoY(), t.getRotacao().geteixoZ());
 		}
-		glScalef(t.getEscala().getX(), primitivas[j].getTransformacao().getEscala().getY(), primitivas[j].getTransformacao().getEscala().getZ());
+		glScalef(t.getEscala().getX(), t.getEscala().getY(), t.getEscala().getZ());
+
+		//Desenhar filhos (p.e. luas)
+		if (primitivas[j].getFilhos().size() != 0){
+			vector<Primitiva> filhos = primitivas[j].getFilhos();
+			for (size_t k = 0; k < filhos.size(); k++){
+				glPushMatrix();
+				Transformacao tfilho = filhos[k].getTransformacao();
+				if (tfilho.getTranslacao().getTime() != 0){
+					te = glutGet(GLUT_ELAPSED_TIME) % (int)(tfilho.getTranslacao().getTime() * 1000);
+					gt = te / (tfilho.getTranslacao().getTime() * 1000);
+					vector<Ponto> vp = tfilho.getTranslacao().getPontosTrans();
+					renderCatmullRomCurve(tfilho.getTranslacao().getPontosCurva());
+					tfilho.getTranslacao().getGlobalCatmullRomPoint(gt, res, vp);
+					vp.clear();
+					glTranslatef(res[0], res[1], res[2]);
+				}
+				if (tfilho.getRotacao().getTime() != 0){
+					r = glutGet(GLUT_ELAPSED_TIME) % (int)(tfilho.getRotacao().getTime() * 1000);
+					gr = (r * 360) / (tfilho.getRotacao().getTime() * 1000);
+					glRotatef(gr, tfilho.getRotacao().geteixoX(), tfilho.getRotacao().geteixoY(), tfilho.getRotacao().geteixoZ());
+				}
+				glScalef(tfilho.getEscala().getX(), tfilho.getEscala().getY(), tfilho.getEscala().getZ());
+				
+				filhos[k].desenhar();
+
+				glPopMatrix();
+			}
+		}
 		
 		//VBOs
 		//primitivas[j].preparar();
@@ -129,6 +162,8 @@ void renderScene(void)
 		//primitivas[j].construir();
 		
 		glPopMatrix();
+
+		
 	}
 
 	framesPerSecond();
@@ -284,13 +319,13 @@ void readFile(string filename)
 	
 }
 
-void parseGrupo(XMLElement* grupo, Transformacao transf){
+void parseGrupo(XMLElement* grupo, Transformacao transf, char parent){
 	Transformacao trans;
 	Translacao tr;
 	Rotacao ro;
-	Escala es = Escala::Escala(1,1,1);
-	float ang1, rotX, rotY, rotZ, transX, transY, transZ, escX, escY, escZ, time;
-	ang1 = rotX = rotY = rotZ = transX = transY = transZ = escX = escY = escZ = 1;
+	Escala es;
+	float rotX, rotY, rotZ, transX, transY, transZ, escX, escY, escZ, time;
+	rotX = rotY = rotZ = transX = transY = transZ = escX = escY = escZ = 1;
 
 	if (strcmp(grupo->FirstChildElement()->Value(), "grupo") == 0)
 		grupo = grupo->FirstChildElement();
@@ -315,13 +350,6 @@ void parseGrupo(XMLElement* grupo, Transformacao transf){
 
 				if (ponto->Attribute("Z"))
 					transZ = stof(ponto->Attribute("Z"));
-
-				if (transf.getTranslacao().getTime() != 0){
-					transX = transX + transf.getTranslacao().getPontosTrans()[k].getX();
-					transY = transY + transf.getTranslacao().getPontosTrans()[k].getY();
-					transZ = transZ + transf.getTranslacao().getPontosTrans()[k].getZ();
-					k++;
-				}
 
 				Ponto pt = Ponto::Ponto(transX, transY, transZ);
 				trpontos.push_back(pt);
@@ -356,10 +384,10 @@ void parseGrupo(XMLElement* grupo, Transformacao transf){
 	//tr.setTransx(tr.getTransx() + transf.getTranslacao().getTransx());
 	//tr.setTransy(tr.getTransy() + transf.getTranslacao().getTransy());
 	//tr.setTransz(tr.getTransz() + transf.getTranslacao().getTransz());
-	ro.setTime(ro.getTime() /*+ transf.getRotacao().getTime()*/);
-	ro.setEixoX(ro.geteixoX() /*+ transf.getRotacao().geteixoX()*/);
-	ro.setEixoY(ro.geteixoY() /*+ transf.getRotacao().geteixoY()*/);
-	ro.setEixoZ(ro.geteixoZ() /*+ transf.getRotacao().geteixoZ()*/);
+	//ro.setTime(ro.getTime() /*+ transf.getRotacao().getTime()*/);
+	//ro.setEixoX(ro.geteixoX() /*+ transf.getRotacao().geteixoX()*/);
+	//ro.setEixoY(ro.geteixoY() /*+ transf.getRotacao().geteixoY()*/);
+	//ro.setEixoZ(ro.geteixoZ() /*+ transf.getRotacao().geteixoZ()*/);
 	es.setX(es.getX() * transf.getEscala().getX());
 	es.setY(es.getY() * transf.getEscala().getY());
 	es.setZ(es.getZ() * transf.getEscala().getZ());
@@ -381,17 +409,21 @@ void parseGrupo(XMLElement* grupo, Transformacao transf){
 		cout << "Rotacao   : " << trans.getRotacao().getTime() << " - " << trans.getRotacao().geteixoX() << " - " << trans.getRotacao().geteixoY() << " - " << trans.getRotacao().geteixoZ() << endl;
 		cout << "Escala    : " << trans.getEscala().getX() << " - " << trans.getEscala().getY() << " - " << trans.getEscala().getZ() << endl;
 
-		primitivas.push_back(p);
+		if (parent == 'F'){
+			int q = primitivas.size() - 1;
+			primitivas[q].setFilho(p);
+		} else primitivas.push_back(p);
 	}
 
-	//faz o mesmo de cima para grupos filhos
+	//Se tiver elementos "filhos":
 	if (grupo->FirstChildElement("grupo")) {
-		parseGrupo(grupo->FirstChildElement("grupo"), trans);
+		cout << "Filho:" << endl;
+		parseGrupo(grupo->FirstChildElement("grupo"), trans, 'F');
 	}
 
-	//faz o mesmo de cima para grupos irmãos
+	//Elementos "irmãos"
 	if (grupo->NextSiblingElement("grupo")) {
-		parseGrupo(grupo->NextSiblingElement("grupo"), transf);
+		parseGrupo(grupo->NextSiblingElement("grupo"), transf, 'I');
 	}
 }
 
@@ -412,7 +444,7 @@ void readXML(string filename)
 	trans = Translacao::Translacao();
 	t.setTranslacao(trans);
 	t.setEscala(e);
-	parseGrupo(grupo, t);
+	parseGrupo(grupo, t, 'I');
 }
 
 // Função de processamento do menu
@@ -442,10 +474,17 @@ void initGL() {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 
-	// init
-
+	// init para VBOs
 	for (size_t j = 0; j < primitivas.size(); j++){
 		primitivas[j].preparar();
+
+		if (primitivas[j].getFilhos().size() != 0){
+			vector<Primitiva> filhos = primitivas[j].getFilhos();
+			for (size_t w = 0; w < filhos.size(); w++){
+				filhos[w].preparar();
+			}
+			primitivas[j].setFilhos(filhos);
+		}
 	}
 }
 
