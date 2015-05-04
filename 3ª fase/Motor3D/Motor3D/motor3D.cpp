@@ -14,21 +14,12 @@ float camX = -30, camY = 30, camZ = 20;
 float anguloX = 0.0f, anguloY = 0.0f, anguloZ = 0.0f;
 float coordX = 0, coordY = 0, coordZ = 0;
 int startX, startY, tracking = 0;
+int alpha = 0, beta = 0, r = 5;
 
-/* VBOs */
-// GLuint vertexCount, vertices;
 
 /* FRAMES PER SECOND */
 int timebase = 0, frame = 0;
 
-int alpha = 0, beta = 0, r = 5;
-
-/*
-void converte() {
-	camX = radius * cos(beta) * sin(alpha);
-	camY = radius * sin(beta);
-	camZ = radius * cos(beta) * cos(alpha);
-} */
 
 void framesPerSecond() {
 	float fps;
@@ -71,6 +62,7 @@ void changeSize(int w, int h)
 	glMatrixMode(GL_MODELVIEW);
 }
 
+//Desenho das orbitas
 void renderCatmullRomCurve(vector<Ponto> pontos) {
 	int n = pontos.size();
 	float pp[3];
@@ -106,9 +98,9 @@ void renderScene(void)
 		Transformacao t = primitivas[j].getTransformacao();
 
 		//Colorir o sol de amarelo
-		/* if (fy) { glColor3f(1.0f, 1.0f, 0.0f); fy = 0; }
+		 if (fy) { glColor3f(1.0f, 1.0f, 0.0f); fy = 0; }
 		else glColor3f(0.0f, 0.9f, 1.0f);
-		*/
+		
 
 		//Desenhar primitiva (p.e. planetas)
 		if (t.getTranslacao().getTime() != 0){
@@ -163,8 +155,6 @@ void renderScene(void)
 		//primitivas[j].construir();
 		
 		glPopMatrix();
-
-		
 	}
 
 	framesPerSecond();
@@ -202,7 +192,6 @@ void normalkeyboard(unsigned char tecla, int x, int y) {
 	}
 	glutPostRedisplay();
 }
-
 
 void specialKeys(int key, int x, int y) {
 	switch (key) {
@@ -381,20 +370,14 @@ void parseGrupo(XMLElement* grupo, Transformacao transf, char parent){
 			es.setZ(escZ);
 		}
 	}
-	//Actualizacao dos valores em relação ao nodo pai
-	//tr.setTransx(tr.getTransx() + transf.getTranslacao().getTransx());
-	//tr.setTransy(tr.getTransy() + transf.getTranslacao().getTransy());
-	//tr.setTransz(tr.getTransz() + transf.getTranslacao().getTransz());
-	//ro.setTime(ro.getTime() /*+ transf.getRotacao().getTime()*/);
-	//ro.setEixoX(ro.geteixoX() /*+ transf.getRotacao().geteixoX()*/);
-	//ro.setEixoY(ro.geteixoY() /*+ transf.getRotacao().geteixoY()*/);
-	//ro.setEixoZ(ro.geteixoZ() /*+ transf.getRotacao().geteixoZ()*/);
+
+	//Calculo da escala em relaçao ao pai
 	es.setX(es.getX() * transf.getEscala().getX());
 	es.setY(es.getY() * transf.getEscala().getY());
 	es.setZ(es.getZ() * transf.getEscala().getZ());
 	trans = Transformacao::Transformacao(tr, ro, es);
 		
-	//para o mesmo grupo, quais os modelos(ficheiros) que recebem as transformações
+	//para o mesmo grupo, quais os modelos que recebem as transformações
 	for (XMLElement* modelo = grupo->FirstChildElement("modelos")->FirstChildElement("modelo"); modelo; modelo = modelo->NextSiblingElement("modelo")) {
 		
 		Primitiva p;
