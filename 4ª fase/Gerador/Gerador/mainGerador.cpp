@@ -276,7 +276,7 @@ void esfera(double raio, int camadasV, int camadasH, string filename)
 			printf("%f %f %f\n", x3, y3, z3); file << x3 << "," << y3 << "," << z3 << endl;
 			p = Ponto::Ponto(x3/raio,y3/raio,z3/raio);
 			normais.push_back(p);
-			p = Ponto::Ponto(1 - (camadasV - j - 1)*espv, 1 - i*esph, 0);
+			p = Ponto::Ponto(1 - (camadasV - j)*espv, 1 - (i+1)*esph, 0);
 			texturas.push_back(p);
 
 
@@ -288,7 +288,7 @@ void esfera(double raio, int camadasV, int camadasH, string filename)
 			printf("%f %f %f\n", x4, y4, z4); file << x4 << "," << y4 << "," << z4 << endl;
 			p = Ponto::Ponto(x4 / raio, y4 / raio, z4 / raio);
 			normais.push_back(p);
-			p = Ponto::Ponto(1 - (camadasV - j)*espv, 1 - (i + 1)*esph, 0);
+			p = Ponto::Ponto(1 - (camadasV - j - 1)*espv, 1 - i*esph, 0);
 			texturas.push_back(p);
 			printf("%f %f %f\n", x2, y2, z2); file << x2 << "," << y2 << "," << z2 << endl;
 			p = Ponto::Ponto(x2 / raio, y2 / raio, z2 / raio);

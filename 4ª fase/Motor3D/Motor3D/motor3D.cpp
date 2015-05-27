@@ -101,13 +101,14 @@ void renderScene(void)
 		glPushMatrix();
 		Transformacao t = primitivas[j].getTransformacao();
 		
-		/*
+		
 		if (j == 0) {
-			GLfloat pos[4] = { 0, 0, 0, 1 };
-			GLfloat amb[3] = { posX, posY, posZ };
-			GLfloat diff[3] = { 0.8, 0.8, 0.15 };
+			GLfloat pos[3] = { posX, posY, posZ };
+			GLfloat amb[3] = { 0.0, 0.0, 0.0 };
+			GLfloat diff[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 			GLfloat matt[3] = { 1, 1, 1 };
 
+			glMaterialf(GL_FRONT, GL_SHININESS, 10);
 			glLightfv(GL_LIGHT0, GL_POSITION, pos); // posição da luz
 			glLightfv(GL_LIGHT0, GL_AMBIENT, amb); // cores da luz
 			glLightfv(GL_LIGHT0, GL_DIFFUSE, diff); // cores da luz
@@ -117,7 +118,7 @@ void renderScene(void)
 		else {
 			GLfloat matt[3] = { 0, 0, 0 };
 			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, matt);
-		}*/
+		}
 
 		//Desenhar primitiva (p.e. planetas)
 		if (t.getTranslacao().getTime() != 0){
@@ -159,9 +160,9 @@ void renderScene(void)
 				glScalef(tfilho.getEscala().getX(), tfilho.getEscala().getY(), tfilho.getEscala().getZ());
 				
 				glBindTexture(GL_TEXTURE_2D, filhos[k].getTexID());
-				//glEnable(GL_LIGHTING);
+				glEnable(GL_LIGHTING);
 				filhos[k].desenhar();
-				//glDisable(GL_LIGHTING);
+				glDisable(GL_LIGHTING);
 				glBindTexture(GL_TEXTURE_2D, 0);
 
 				glPopMatrix();
@@ -169,12 +170,12 @@ void renderScene(void)
 		}
 		
 		//VBOs
-		//primitivas[j].preparar();
 		glBindTexture(GL_TEXTURE_2D, primitivas[j].getTexID());
-		//glEnable(GL_LIGHTING);
+		glEnable(GL_LIGHTING);
 		primitivas[j].desenhar();
-		//glDisable(GL_LIGHTING);
+		glDisable(GL_LIGHTING);
 		glBindTexture(GL_TEXTURE_2D, 0);
+		
 		//Modo imediato
 		//primitivas[j].construir();
 		
@@ -577,10 +578,13 @@ void defineMenu() {
 void initGL() {
 
 	// alguns settings para OpenGL
-	glPolygonMode(GL_FRONT, GL_LINE);
+	glPolygonMode(GL_FRONT, GL_FILL);
+	//glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_CULL_FACE);
+	glEnable(GL_NORMALIZE);
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-	//glEnable(GL_LIGHT0);
+	//glEnable(GL_CULL_FACE);
+	glEnable(GL_LIGHT0);
 	glEnable(GL_TEXTURE_2D);
 
 	// init para VBOs
