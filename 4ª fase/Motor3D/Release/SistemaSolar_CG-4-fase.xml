@@ -1,0 +1,384 @@
+﻿<cena>
+	<luzes> 
+  		<luz tipo="POINT" posX="0.0" posY="0.0" posZ="0.0" /> 
+ 	</luzes>
+	<grupo>
+			<!--Sol-->
+			<grupo>
+				<escala X="3.0" Y="3.0" Z="3.0"/>
+				<rotacao tempo="50" eixoX="0" eixoY="1" eixoZ="0" />
+				<modelos>
+					<modelo ficheiro="esfera.3d" textura="sol.jpg"/>
+				</modelos>
+			</grupo>
+			<!--Mercúrio-->
+			<grupo>
+				<translacao tempo="4.4">
+					<ponto X="25" Y="0" Z="0" />
+					<ponto X="23.097" Y="0" Z="9.56709" />
+					<ponto X="17.6777" Y="0" Z="17.6777" />
+					<ponto X="9.56709" Y="0" Z="23.097" />
+					<ponto X="1.53081e-015" Y="0" Z="25" />
+					<ponto X="-9.56709" Y="0" Z="23.097" />
+					<ponto X="-17.6777" Y="0" Z="17.6777" />
+					<ponto X="-23.097" Y="0" Z="9.56709" />
+					<ponto X="-25" Y="0" Z="3.06162e-015" />
+					<ponto X="-23.097" Y="0" Z="-9.56709" />
+					<ponto X="-17.6777" Y="0" Z="-17.6777" />
+					<ponto X="-9.56709" Y="0" Z="-23.097" />
+					<ponto X="-4.59243e-015" Y="0" Z="-25" />
+					<ponto X="9.56709" Y="0" Z="-23.097" />
+					<ponto X="17.6777" Y="0" Z="-17.6777" />
+					<ponto X="23.097" Y="0" Z="-9.56709" />
+				</translacao>
+				<rotacao tempo="38" eixoX="0" eixoY="1" eixoZ="0" />
+				<escala X="0.5" Y="0.5" Z="0.5"/>
+				<modelos>
+					<modelo ficheiro="esfera.3d" textura="mercurio.jpg"/>
+				</modelos>
+			</grupo>
+
+			<!--Vénus-->
+			<grupo>
+				<translacao tempo="11.2">
+					<ponto X="35" Y="0" Z="0" />
+					<ponto X="32.3358" Y="0" Z="13.3939" />
+					<ponto X="24.7487" Y="0" Z="24.7487" />
+					<ponto X="13.3939" Y="0" Z="32.3358" />
+					<ponto X="2.14313e-015" Y="0" Z="35" />
+					<ponto X="-13.3939" Y="0" Z="32.3358" />
+					<ponto X="-24.7487" Y="0" Z="24.7487" />
+					<ponto X="-32.3358" Y="0" Z="13.3939" />
+					<ponto X="-35" Y="0" Z="4.28626e-015" />
+					<ponto X="-32.3358" Y="0" Z="-13.3939" />
+					<ponto X="-24.7487" Y="0" Z="-24.7487" />
+					<ponto X="-13.3939" Y="0" Z="-32.3358" />
+					<ponto X="-6.4294e-015" Y="0" Z="-35" />
+					<ponto X="13.3939" Y="0" Z="-32.3358" />
+					<ponto X="24.7487" Y="0" Z="-24.7487" />
+					<ponto X="32.3358" Y="0" Z="-13.3939" />
+				</translacao>
+				<rotacao tempo="40" eixoX="0" eixoY="-1" eixoZ="0" />
+				<escala X="0.7" Y="0.7" Z="0.7"/>
+				<modelos>
+					<modelo ficheiro="esfera.3d" textura="venus.jpg"/>
+				</modelos>
+			</grupo>
+
+			<!--Terra-->
+			<grupo>
+				<translacao tempo="18.25">
+					<ponto X="50" Y="0" Z="0" />
+					<ponto X="46.194" Y="0" Z="19.1342" />
+					<ponto X="35.3553" Y="0" Z="35.3553" />
+					<ponto X="19.1342" Y="0" Z="46.194" />
+					<ponto X="3.06162e-015" Y="0" Z="50" />
+					<ponto X="-19.1342" Y="0" Z="46.194" />
+					<ponto X="-35.3553" Y="0" Z="35.3553" />
+					<ponto X="-46.194" Y="0" Z="19.1342" />
+					<ponto X="-50" Y="0" Z="6.12323e-015" />
+					<ponto X="-46.194" Y="0" Z="-19.1342" />
+					<ponto X="-35.3553" Y="0" Z="-35.3553" />
+					<ponto X="-19.1342" Y="0" Z="-46.194" />
+					<ponto X="-9.18485e-015" Y="0" Z="-50" />
+					<ponto X="19.1342" Y="0" Z="-46.194" />
+					<ponto X="35.3553" Y="0" Z="-35.3553" />
+					<ponto X="46.194" Y="0" Z="-19.1342" />
+				</translacao>
+				<rotacao tempo="15" eixoX="0" eixoY="0.5" eixoZ="0" />
+				<escala X="0.7" Y="0.7" Z="0.7"/>
+				<modelos>
+					<modelo ficheiro="esfera.3d" textura="terra.jpg"/>
+				</modelos>
+
+				<!--Lua-->
+					<grupo>
+						<translacao tempo="10">
+							<ponto X="8" Y="0" Z="0" />
+							<ponto X="7.39104" Y="3.06147" Z="0" />
+							<ponto X="5.65685" Y="5.65685" Z="0" />
+							<ponto X="3.06147" Y="7.39104" Z="0" />
+							<ponto X="4.89859e-016" Y="8" Z="0" />
+							<ponto X="-3.06147" Y="7.39104" Z="0" />
+							<ponto X="-5.65685" Y="5.65685" Z="0" />
+							<ponto X="-7.39104" Y="3.06147" Z="0" />
+							<ponto X="-8" Y="9.79717e-016" Z="0" />
+							<ponto X="-7.39104" Y="-3.06147" Z="0" />
+							<ponto X="-5.65685" Y="-5.65685" Z="0" />
+							<ponto X="-3.06147" Y="-7.39104" Z="0" />
+							<ponto X="-1.46958e-015" Y="-8" Z="0" />
+							<ponto X="3.06147" Y="-7.39104" Z="0" />
+							<ponto X="5.65685" Y="-5.65685" Z="0" />
+							<ponto X="7.39104" Y="-3.06147" Z="0" />
+						</translacao>
+						<rotacao tempo="24" eixoX="0" eixoY="1" eixoZ="0" />
+						<escala X="0.25" Y="0.25" Z="0.25"/>
+						<modelos>
+							<modelo ficheiro="esfera.3d" textura="lua.jpg"/>
+						</modelos>
+					</grupo>
+					
+			</grupo>
+
+			<!--Marte-->
+			<grupo>
+				<translacao tempo="34.35">
+					<ponto X="70" Y="0" Z="0" />
+					<ponto X="64.6716" Y="0" Z="26.7878" />
+					<ponto X="49.4975" Y="0" Z="49.4975" />
+					<ponto X="26.7878" Y="0" Z="64.6716" />
+					<ponto X="4.28626e-015" Y="0" Z="70" />
+					<ponto X="-26.7878" Y="0" Z="64.6716" />
+					<ponto X="-49.4975" Y="0" Z="49.4975" />
+					<ponto X="-64.6716" Y="0" Z="26.7878" />
+					<ponto X="-70" Y="0" Z="8.57253e-015" />
+					<ponto X="-64.6716" Y="0" Z="-26.7878" />
+					<ponto X="-49.4975" Y="0" Z="-49.4975" />
+					<ponto X="-26.7878" Y="0" Z="-64.6716" />
+					<ponto X="-1.28588e-014" Y="0" Z="-70" />
+					<ponto X="26.7878" Y="0" Z="-64.6716" />
+					<ponto X="49.4975" Y="0" Z="-49.4975" />
+					<ponto X="64.6716" Y="0" Z="-26.7878" />
+				</translacao>
+				<rotacao tempo="20" eixoX="0" eixoY="0.5" eixoZ="0" />
+				<escala X="0.6" Y="0.6" Z="0.6"/>
+				<modelos>
+					<modelo ficheiro="esfera.3d" textura="marte.jpg"/>
+				</modelos>
+			</grupo>
+
+			<!--Júpiter-->
+			<grupo>
+				<translacao tempo="216.6">
+					<ponto X="130" Y="0" Z="0" />
+					<ponto X="120.104" Y="0" Z="49.7488" />
+					<ponto X="91.9239" Y="0" Z="91.9239" />
+					<ponto X="49.7488" Y="0" Z="120.104" />
+					<ponto X="7.9602e-015" Y="0" Z="130" />
+					<ponto X="-49.7488" Y="0" Z="120.104" />
+					<ponto X="-91.9239" Y="0" Z="91.9239" />
+					<ponto X="-120.104" Y="0" Z="49.7488" />
+					<ponto X="-130" Y="0" Z="1.59204e-014" />
+					<ponto X="-120.104" Y="0" Z="-49.7488" />
+					<ponto X="-91.9239" Y="0" Z="-91.9239" />
+					<ponto X="-49.7488" Y="0" Z="-120.104" />
+					<ponto X="-2.38806e-014" Y="0" Z="-130" />
+					<ponto X="49.7488" Y="0" Z="-120.104" />
+					<ponto X="91.9239" Y="0" Z="-91.9239" />
+					<ponto X="120.104" Y="0" Z="-49.7488" />
+				</translacao>
+				<rotacao tempo="9" eixoX="0" eixoY="1" eixoZ="0" />
+				<escala X="2.1" Y="2.1" Z="2.1"/>
+				<modelos>
+					<modelo ficheiro="esfera.3d" textura="jupiter.jpg"/>
+				</modelos>
+			</grupo>
+
+			<!--Saturno-->
+			<grupo>
+				<translacao tempo="538">
+					<ponto X="190" Y="0" Z="0" />
+					<ponto X="175.537" Y="0" Z="72.7099" />
+					<ponto X="134.35" Y="0" Z="134.35" />
+					<ponto X="72.7099" Y="0" Z="175.537" />
+					<ponto X="1.16341e-014" Y="0" Z="190" />
+					<ponto X="-72.7099" Y="0" Z="175.537" />
+					<ponto X="-134.35" Y="0" Z="134.35" />
+					<ponto X="-175.537" Y="0" Z="72.7099" />
+					<ponto X="-190" Y="0" Z="2.32683e-014" />
+					<ponto X="-175.537" Y="0" Z="-72.7099" />
+					<ponto X="-134.35" Y="0" Z="-134.35" />
+					<ponto X="-72.7099" Y="0" Z="-175.537" />
+					<ponto X="-3.49024e-014" Y="0" Z="-190" />
+					<ponto X="72.7099" Y="0" Z="-175.537" />
+					<ponto X="134.35" Y="0" Z="-134.35" />
+					<ponto X="175.537" Y="0" Z="-72.7099" />
+				</translacao>
+				<rotacao tempo="10" eixoX="0" eixoY="0.5" eixoZ="0" />
+				<escala X="2.0" Y="2.0" Z="2.0"/>
+				<modelos>
+					<modelo ficheiro="esfera.3d" textura="saturno.jpg"/>
+				</modelos>
+				<!--Aneis-->
+					<grupo>
+						<translacao tempo="18">
+							<ponto X="7" Y="0" Z="0" />
+							<ponto X="6.46716" Y="2.67878" Z="0" />
+							<ponto X="4.94975" Y="4.94975" Z="0" />
+							<ponto X="2.67878" Y="6.46716" Z="0" />
+							<ponto X="4.28626e-016" Y="7" Z="0" />
+							<ponto X="-2.67878" Y="6.46716" Z="0" />
+							<ponto X="-4.94975" Y="4.94975" Z="0" />
+							<ponto X="-6.46716" Y="2.67878" Z="0" />
+							<ponto X="-7" Y="8.57253e-016" Z="0" />
+							<ponto X="-6.46716" Y="-2.67878" Z="0" />
+							<ponto X="-4.94975" Y="-4.94975" Z="0" />
+							<ponto X="-2.67878" Y="-6.46716" Z="0" />
+							<ponto X="-1.28588e-015" Y="-7" Z="0" />
+							<ponto X="2.67878" Y="-6.46716" Z="0" />
+							<ponto X="4.94975" Y="-4.94975" Z="0" />
+							<ponto X="6.46716" Y="-2.67878" Z="0" />
+						</translacao>
+						<rotacao tempo="5" eixoX="0" eixoY="1" eixoZ="0" />
+						<escala X="0.01" Y="0.01" Z="0.01"/>
+						<modelos>
+							<modelo ficheiro="esfera.3d" textura="lua.jpg"/>
+						</modelos>
+					</grupo>
+					<grupo>
+						<translacao tempo="10">
+							<ponto X="8" Y="0" Z="0" />
+							<ponto X="7.39104" Y="3.06147" Z="0" />
+							<ponto X="5.65685" Y="5.65685" Z="0" />
+							<ponto X="3.06147" Y="7.39104" Z="0" />
+							<ponto X="4.89859e-016" Y="8" Z="0" />
+							<ponto X="-3.06147" Y="7.39104" Z="0" />
+							<ponto X="-5.65685" Y="5.65685" Z="0" />
+							<ponto X="-7.39104" Y="3.06147" Z="0" />
+							<ponto X="-8" Y="9.79717e-016" Z="0" />
+							<ponto X="-7.39104" Y="-3.06147" Z="0" />
+							<ponto X="-5.65685" Y="-5.65685" Z="0" />
+							<ponto X="-3.06147" Y="-7.39104" Z="0" />
+							<ponto X="-1.46958e-015" Y="-8" Z="0" />
+							<ponto X="3.06147" Y="-7.39104" Z="0" />
+							<ponto X="5.65685" Y="-5.65685" Z="0" />
+							<ponto X="7.39104" Y="-3.06147" Z="0" />
+						</translacao>
+						<rotacao tempo="5" eixoX="0" eixoY="1" eixoZ="0" />
+						<escala X="0.01" Y="0.01" Z="0.01"/>
+						<modelos>
+							<modelo ficheiro="esfera.3d" textura="lua.jpg"/>
+						</modelos>
+					</grupo>
+					<grupo>
+						<translacao tempo="5">
+							<ponto X="9" Y="0" Z="0" />
+							<ponto X="8.31492" Y="3.44415" Z="0" />
+							<ponto X="6.36396" Y="6.36396" Z="0" />
+							<ponto X="3.44415" Y="8.31492" Z="0" />
+							<ponto X="5.51091e-016" Y="9" Z="0" />
+							<ponto X="-3.44415" Y="8.31492" Z="0" />
+							<ponto X="-6.36396" Y="6.36396" Z="0" />
+							<ponto X="-8.31492" Y="3.44415" Z="0" />
+							<ponto X="-9" Y="1.10218e-015" Z="0" />
+							<ponto X="-8.31492" Y="-3.44415" Z="0" />
+							<ponto X="-6.36396" Y="-6.36396" Z="0" />
+							<ponto X="-3.44415" Y="-8.31492" Z="0" />
+							<ponto X="-1.65327e-015" Y="-9" Z="0" />
+							<ponto X="3.44415" Y="-8.31492" Z="0" />
+							<ponto X="6.36396" Y="-6.36396" Z="0" />
+							<ponto X="8.31492" Y="-3.44415" Z="0" />
+						</translacao>
+						<rotacao tempo="5" eixoX="0" eixoY="1" eixoZ="0" />
+						<escala X="0.01" Y="0.01" Z="0.01"/>
+						<modelos>
+							<modelo ficheiro="esfera.3d" textura="lua.jpg"/>
+						</modelos>
+					</grupo>
+					<grupo>
+						<translacao tempo="15">
+							<ponto X="10" Y="0" Z="0" />
+							<ponto X="9.2388" Y="3.82683" Z="0" />
+							<ponto X="7.07107" Y="7.07107" Z="0" />
+							<ponto X="3.82683" Y="9.2388" Z="0" />
+							<ponto X="6.12323e-016" Y="10" Z="0" />
+							<ponto X="-3.82683" Y="9.2388" Z="0" />
+							<ponto X="-7.07107" Y="7.07107" Z="0" />
+							<ponto X="-9.2388" Y="3.82683" Z="0" />
+							<ponto X="-10" Y="1.22465e-015" Z="0" />
+							<ponto X="-9.2388" Y="-3.82683" Z="0" />
+							<ponto X="-7.07107" Y="-7.07107" Z="0" />
+							<ponto X="-3.82683" Y="-9.2388" Z="0" />
+							<ponto X="-1.83697e-015" Y="-10" Z="0" />
+							<ponto X="3.82683" Y="-9.2388" Z="0" />
+							<ponto X="7.07107" Y="-7.07107" Z="0" />
+							<ponto X="9.2388" Y="-3.82683" Z="0" />
+						</translacao>
+						<rotacao tempo="5" eixoX="0" eixoY="1" eixoZ="0" />
+						<escala X="0.01" Y="0.01" Z="0.01"/>
+						<modelos>
+							<modelo ficheiro="esfera.3d" textura="lua.jpg"/>
+						</modelos>
+					</grupo>
+					<grupo>
+						<translacao tempo="20">
+							<ponto X="11" Y="0" Z="0" />
+							<ponto X="10.1627" Y="4.20952" Z="0" />
+							<ponto X="7.77817" Y="7.77817" Z="0" />
+							<ponto X="4.20952" Y="10.1627" Z="0" />
+							<ponto X="6.73556e-016" Y="11" Z="0" />
+							<ponto X="-4.20952" Y="10.1627" Z="0" />
+							<ponto X="-7.77817" Y="7.77817" Z="0" />
+							<ponto X="-10.1627" Y="4.20952" Z="0" />
+							<ponto X="-11" Y="1.34711e-015" Z="0" />
+							<ponto X="-10.1627" Y="-4.20952" Z="0" />
+							<ponto X="-7.77817" Y="-7.77817" Z="0" />
+							<ponto X="-4.20952" Y="-10.1627" Z="0" />
+							<ponto X="-2.02067e-015" Y="-11" Z="0" />
+							<ponto X="4.20952" Y="-10.1627" Z="0" />
+							<ponto X="7.77817" Y="-7.77817" Z="0" />
+							<ponto X="10.1627" Y="-4.20952" Z="0" />
+						</translacao>
+						<rotacao tempo="5" eixoX="0" eixoY="1" eixoZ="0" />
+						<escala X="0.01" Y="0.01" Z="0.01"/>
+						<modelos>
+							<modelo ficheiro="esfera.3d" textura="lua.jpg"/>
+						</modelos>
+					</grupo>
+			</grupo>
+
+			<!--Urano-->
+			<grupo>
+				<translacao tempo="1335">
+					<ponto X="260" Y="0" Z="0" />
+					<ponto X="240.209" Y="0" Z="99.4977" />
+					<ponto X="183.848" Y="0" Z="183.848" />
+					<ponto X="99.4977" Y="0" Z="240.209" />
+					<ponto X="1.59204e-014" Y="0" Z="260" />
+					<ponto X="-99.4977" Y="0" Z="240.209" />
+					<ponto X="-183.848" Y="0" Z="183.848" />
+					<ponto X="-240.209" Y="0" Z="99.4977" />
+					<ponto X="-260" Y="0" Z="3.18408e-014" />
+					<ponto X="-240.209" Y="0" Z="-99.4977" />
+					<ponto X="-183.848" Y="0" Z="-183.848" />
+					<ponto X="-99.4977" Y="0" Z="-240.209" />
+					<ponto X="-4.77612e-014" Y="0" Z="-260" />
+					<ponto X="99.4977" Y="0" Z="-240.209" />
+					<ponto X="183.848" Y="0" Z="-183.848" />
+					<ponto X="240.209" Y="0" Z="-99.4977" />
+				</translacao>
+				<rotacao tempo="17" eixoX="0" eixoY="-0.8" eixoZ="0" />
+				<escala X="1.5" Y="1.5" Z="1.5"/>
+				<modelos>
+					<modelo ficheiro="esfera.3d" textura="urano.jpg"/>
+				</modelos>
+			</grupo>
+
+			<!--Neptuno-->
+			<grupo>
+				<translacao tempo="2430">
+					<ponto X="350" Y="0" Z="0" />
+					<ponto X="323.358" Y="0" Z="133.939" />
+					<ponto X="247.487" Y="0" Z="247.487" />
+					<ponto X="133.939" Y="0" Z="323.358" />
+					<ponto X="2.14313e-014" Y="0" Z="350" />
+					<ponto X="-133.939" Y="0" Z="323.358" />
+					<ponto X="-247.487" Y="0" Z="247.487" />
+					<ponto X="-323.358" Y="0" Z="133.939" />
+					<ponto X="-350" Y="0" Z="4.28626e-014" />
+					<ponto X="-323.358" Y="0" Z="-133.939" />
+					<ponto X="-247.487" Y="0" Z="-247.487" />
+					<ponto X="-133.939" Y="0" Z="-323.358" />
+					<ponto X="-6.4294e-014" Y="0" Z="-350" />
+					<ponto X="133.939" Y="0" Z="-323.358" />
+					<ponto X="247.487" Y="0" Z="-247.487" />
+					<ponto X="323.358" Y="0" Z="-133.939" />
+				</translacao>
+				<rotacao tempo="16" eixoX="0" eixoY="0.5" eixoZ="0" />
+				<escala X="1.5" Y="1.5" Z="1.5"/>
+				<modelos>
+					<modelo ficheiro="esfera.3d" textura="neptuno.jpg"/>
+				</modelos>
+			</grupo>
+		</grupo>
+</cena>

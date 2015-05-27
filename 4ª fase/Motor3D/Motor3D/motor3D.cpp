@@ -2,6 +2,8 @@
 
 // Vector com os pontos lidos do ficheiro:
 vector<Ponto> pontos;
+vector<Ponto> normais;
+vector<Ponto> texturas;
 
 // Primitivas do sistema solar
 vector<Primitiva> primitivas;
@@ -18,6 +20,10 @@ int alpha = 0, beta = 0, r = 5;
 
 /* FRAMES PER SECOND */
 int timebase = 0, frame = 0;
+
+/* Luz */
+string tipo;
+float posX, posY, posZ;
 
 void framesPerSecond() {
 	float fps;
@@ -94,11 +100,24 @@ void renderScene(void)
 	for (size_t j = 0; j < primitivas.size(); j++){
 		glPushMatrix();
 		Transformacao t = primitivas[j].getTransformacao();
-
-		//Colorir o sol de amarelo
-		 if (fy) { glColor3f(1.0f, 1.0f, 0.0f); fy = 0; }
-		else glColor3f(0.0f, 0.9f, 1.0f);
 		
+		/*
+		if (j == 0) {
+			GLfloat pos[4] = { 0, 0, 0, 1 };
+			GLfloat amb[3] = { posX, posY, posZ };
+			GLfloat diff[3] = { 0.8, 0.8, 0.15 };
+			GLfloat matt[3] = { 1, 1, 1 };
+
+			glLightfv(GL_LIGHT0, GL_POSITION, pos); // posição da luz
+			glLightfv(GL_LIGHT0, GL_AMBIENT, amb); // cores da luz
+			glLightfv(GL_LIGHT0, GL_DIFFUSE, diff); // cores da luz
+
+			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, matt);
+		}
+		else {
+			GLfloat matt[3] = { 0, 0, 0 };
+			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, matt);
+		}*/
 
 		//Desenhar primitiva (p.e. planetas)
 		if (t.getTranslacao().getTime() != 0){
@@ -139,7 +158,11 @@ void renderScene(void)
 				}
 				glScalef(tfilho.getEscala().getX(), tfilho.getEscala().getY(), tfilho.getEscala().getZ());
 				
+				glBindTexture(GL_TEXTURE_2D, filhos[k].getTexID());
+				//glEnable(GL_LIGHTING);
 				filhos[k].desenhar();
+				//glDisable(GL_LIGHTING);
+				glBindTexture(GL_TEXTURE_2D, 0);
 
 				glPopMatrix();
 			}
@@ -147,8 +170,11 @@ void renderScene(void)
 		
 		//VBOs
 		//primitivas[j].preparar();
+		glBindTexture(GL_TEXTURE_2D, primitivas[j].getTexID());
+		//glEnable(GL_LIGHTING);
 		primitivas[j].desenhar();
-
+		//glDisable(GL_LIGHTING);
+		glBindTexture(GL_TEXTURE_2D, 0);
 		//Modo imediato
 		//primitivas[j].construir();
 		
@@ -272,11 +298,35 @@ void readFile(string filename)
 	int pos;
 	double a, b, c;
 	Ponto p;
+	int npontos, camadasV, camadasH;
+	int count = 0;
 
 	ifstream file(filename);
 	if (file.is_open())
 	{
-		while (getline(file, linha))
+		//N de pontos
+		getline(file, linha);
+		pos = linha.find(delimiter);
+		token = linha.substr(0, pos);
+		npontos = atof(token.c_str());
+		linha.erase(0, pos + delimiter.length());
+
+		//Camadas horizontais
+		getline(file, linha);
+		pos = linha.find(delimiter);
+		token = linha.substr(0, pos);
+		camadasH = atof(token.c_str());
+		linha.erase(0, pos + delimiter.length());
+
+		//Camadas verticais
+		getline(file, linha);
+		pos = linha.find(delimiter);
+		token = linha.substr(0, pos);
+		camadasV = atof(token.c_str());
+		linha.erase(0, pos + delimiter.length());
+
+		//Pontos da primitiva:
+		while (count < npontos && getline(file, linha))
 		{
 			pos = linha.find(delimiter);
 			token = linha.substr(0, pos);
@@ -297,6 +347,59 @@ void readFile(string filename)
 			p.setZ(c);
 
 			pontos.push_back(p);
+			count++;
+		}
+
+		//Normais da primitiva:
+		count = 0;
+		while (count < npontos && getline(file, linha))
+		{
+			pos = linha.find(delimiter);
+			token = linha.substr(0, pos);
+			a = atof(token.c_str());
+			linha.erase(0, pos + delimiter.length());
+			p.setX(a);
+
+			pos = linha.find(delimiter);
+			token = linha.substr(0, pos);
+			b = atof(token.c_str());
+			linha.erase(0, pos + delimiter.length());
+			p.setY(b);
+
+			pos = linha.find(delimiter);
+			token = linha.substr(0, pos);
+			c = atof(token.c_str());
+			linha.erase(0, pos + delimiter.length());
+			p.setZ(c);
+
+			normais.push_back(p);
+			count++;
+		}
+
+		//Texturas da primitiva:
+		count = 0;
+		while (count < npontos && getline(file, linha))
+		{
+			pos = linha.find(delimiter);
+			token = linha.substr(0, pos);
+			a = atof(token.c_str());
+			linha.erase(0, pos + delimiter.length());
+			p.setX(a);
+
+			pos = linha.find(delimiter);
+			token = linha.substr(0, pos);
+			b = atof(token.c_str());
+			linha.erase(0, pos + delimiter.length());
+			p.setY(b);
+
+			pos = linha.find(delimiter);
+			token = linha.substr(0, pos);
+			c = atof(token.c_str());
+			linha.erase(0, pos + delimiter.length());
+			p.setZ(c);
+
+			texturas.push_back(p);
+			count++;
 		}
 		file.close();
 	}
@@ -384,7 +487,11 @@ void parseGrupo(XMLElement* grupo, Transformacao transf, char parent){
 		cout << p.getNome() << endl;
 		readFile(p.getNome());
 		p.setPontos(pontos);
+		p.setNormais(normais);
+		p.setTexturas(texturas);
 		pontos.clear();
+		normais.clear();
+		texturas.clear();
 
 		p.setTransformacao(trans);
 
@@ -428,7 +535,14 @@ void readXML(string filename)
 	doc.LoadFile(filename.c_str());
 	
 	XMLElement* cena = doc.FirstChildElement("cena");
+	XMLElement* luzes = cena->FirstChildElement("luzes");
 	XMLElement* grupo = cena->FirstChildElement("grupo");
+	XMLElement* luz = luzes->FirstChildElement("luz");
+	tipo = luz->Attribute("tipo");
+	posX = atof(luz->Attribute("posX")); 
+	posY = atof(luz->Attribute("posY")); 
+	posZ = atof(luz->Attribute("posZ"));
+	
 	
 	Transformacao t = Transformacao::Transformacao();
 	Escala e;
@@ -466,6 +580,8 @@ void initGL() {
 	glPolygonMode(GL_FRONT, GL_LINE);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
+	//glEnable(GL_LIGHT0);
+	glEnable(GL_TEXTURE_2D);
 
 	// init para VBOs
 	for (size_t j = 0; j < primitivas.size(); j++){
@@ -507,6 +623,10 @@ int main(int argc, char **argv)
 
 		//Criação e opções do menu:
 		defineMenu();
+
+		ilInit();
+		ilEnable(IL_ORIGIN_SET);
+		ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
 
 		glewInit();
 

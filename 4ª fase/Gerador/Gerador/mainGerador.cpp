@@ -10,7 +10,24 @@ void plano(float comp, float larg, int cmdh, int cmdv, string filename)
 	float refz = -((float) comp / 2); //Ponto inicial z
 	float xx, zz;
 	int i,j;
-	
+
+	Ponto p;
+	//Saltos nas texturas
+	float saltoTexx = 1.0 / cmdv;
+	float saltoTexz = 1.0 / cmdh;
+
+
+	// Normais e texturas:
+	vector<Ponto> normais;
+	vector<Ponto> texturas;
+
+	//Numero de pontos:
+	file << cmdh * cmdv * 6 << endl;
+	//Numero de camadas horiz:
+	file << cmdh << endl;
+	//Numero de camadas vert:
+	file << cmdv << endl;
+
 	for (i = 0; i < cmdh; i++)
 	{
 		xx = refx + saltox * i;
@@ -24,6 +41,18 @@ void plano(float comp, float larg, int cmdh, int cmdv, string filename)
 			file << xx << "," << 0 << "," << zz+saltoz << endl;
 			printf("%f 0 %f\n", xx + saltox, zz);
 			file << xx + saltox << "," << 0 << "," << zz << endl;
+			//Pontos normais:
+			p = Ponto::Ponto(0, 1, 0);
+			normais.push_back(p);
+			normais.push_back(p);
+			normais.push_back(p);
+			//Pontos texturas:
+			p = Ponto::Ponto(1 - (cmdv - j)*saltoTexx, 1 - i*saltoTexz, 0);
+			texturas.push_back(p);
+			p = Ponto::Ponto(1 - (cmdv - j)*saltoTexx, 1 - (i+1)*saltoTexz, 0);
+			texturas.push_back(p);
+			p = Ponto::Ponto(1 - (cmdv - (j+1))*saltoTexx, 1 - i*saltoTexz, 0);
+			texturas.push_back(p);
 
 			printf("%f 0 %f\n", xx, zz + saltoz);
 			file << xx << "," << 0 << "," << zz+saltoz << endl;
@@ -31,7 +60,27 @@ void plano(float comp, float larg, int cmdh, int cmdv, string filename)
 			file << xx+saltox << "," << 0 << "," << zz+saltoz << endl;
 			printf("%f 0 %f\n", xx + saltox, zz);
 			file << xx + saltox << "," << 0 << "," << zz << endl;
+			//Pontos normais:
+			p = Ponto::Ponto(0, 1, 0);
+			normais.push_back(p);
+			normais.push_back(p);
+			normais.push_back(p);
+			//Pontos texturas:
+			p = Ponto::Ponto(1 - (cmdv - j)*saltoTexx, 1 - (i + 1)*saltoTexz, 0);
+			texturas.push_back(p);
+			p = Ponto::Ponto(1 - (cmdv - (j + 1))*saltoTexx, 1 - (i + 1)*saltoTexz, 0);
+			texturas.push_back(p);
+			p = Ponto::Ponto(1 - (cmdv - (j + 1))*saltoTexx, 1 - i*saltoTexz, 0);
+			texturas.push_back(p);
 		}
+	}
+	int nn = normais.size();
+	for (i = 0; i < nn; i++){
+		file << normais[i].getX() << "," << normais[i].getY() << "," << normais[i].getZ() << endl;
+	}
+	int nt = texturas.size();
+	for (i = 0; i < nt; i++){
+		file << texturas[i].getX() << "," << texturas[i].getY() << "," << texturas[i].getZ() << endl;
 	}
 }
 
@@ -181,7 +230,18 @@ void esfera(double raio, int camadasV, int camadasH, string filename)
 	float saltoV = 2 * (M_PI) / camadasV;
 	int i, j;
 	float x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4;
+
+	// Normais e texturas:
+	vector<Ponto> normais;
+	vector<Ponto> texturas;
+	Ponto p;
+	float espv = 1.0 / camadasV;
+	float esph = 1.0 / camadasH;
 	
+	file << camadasH * camadasV * 6 << endl;
+	file << camadasH << endl;
+	file << camadasV << endl;
+
 	for (i = 0; i < camadasH; i++){
 		teta = 0;
 
@@ -204,16 +264,50 @@ void esfera(double raio, int camadasV, int camadasH, string filename)
 
 
 			printf("%f %f %f\n", x1, y1, z1); file << x1 << "," << y1 << "," << z1 << endl;
+			p = Ponto::Ponto(x1/raio,y1/raio,z1/raio);
+			normais.push_back(p);
+			p = Ponto::Ponto(1 - (camadasV - j)*espv, 1-i*esph, 0);
+			texturas.push_back(p);
 			printf("%f %f %f\n", x2, y2, z2); file << x2 << "," << y2 << "," << z2 << endl;
+			p = Ponto::Ponto(x2/raio,y2/raio,z2/raio);
+			normais.push_back(p);
+			p = Ponto::Ponto(1 - (camadasV - j - 1)*espv, 1 - (i+1)*esph, 0);
+			texturas.push_back(p);
 			printf("%f %f %f\n", x3, y3, z3); file << x3 << "," << y3 << "," << z3 << endl;
+			p = Ponto::Ponto(x3/raio,y3/raio,z3/raio);
+			normais.push_back(p);
+			p = Ponto::Ponto(1 - (camadasV - j - 1)*espv, 1 - i*esph, 0);
+			texturas.push_back(p);
+
 
 			printf("%f %f %f\n", x1, y1, z1); file << x1 << "," << y1 << "," << z1 << endl;
+			p = Ponto::Ponto(x1 / raio, y1 / raio, z1 / raio);
+			normais.push_back(p);
+			p = Ponto::Ponto(1 - (camadasV - j)*espv, 1 - i*esph, 0);
+			texturas.push_back(p);
 			printf("%f %f %f\n", x4, y4, z4); file << x4 << "," << y4 << "," << z4 << endl;
+			p = Ponto::Ponto(x4 / raio, y4 / raio, z4 / raio);
+			normais.push_back(p);
+			p = Ponto::Ponto(1 - (camadasV - j)*espv, 1 - (i + 1)*esph, 0);
+			texturas.push_back(p);
 			printf("%f %f %f\n", x2, y2, z2); file << x2 << "," << y2 << "," << z2 << endl;
+			p = Ponto::Ponto(x2 / raio, y2 / raio, z2 / raio);
+			normais.push_back(p);
+			p = Ponto::Ponto(1 - (camadasV - j - 1)*espv, 1 - (i + 1)*esph, 0);
+			texturas.push_back(p);
+
 
 			teta += saltoV;
 		}
 		fi += saltoH;
+	}
+	int nn = normais.size();
+	for (i = 0; i < nn; i++){
+		file << normais[i].getX() << "," << normais[i].getY() << "," << normais[i].getZ() << endl;
+	}
+	int nt = texturas.size();
+	for (i = 0; i < nt; i++){
+		file << texturas[i].getX() << "," << texturas[i].getY() << "," << texturas[i].getZ() << endl;
 	}
 }
 
