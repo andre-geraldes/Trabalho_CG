@@ -1,30 +1,5 @@
 #include "mainMotor3D.h"
 
-// Vector com os pontos lidos do ficheiro:
-vector<Ponto> pontos;
-vector<Ponto> normais;
-vector<Ponto> texturas;
-
-// Primitivas do sistema solar
-vector<Primitiva> primitivas;
-
-#define CONST 1.0f;
-
-// Variaveis para utilização do teclado e rato:
-float radius = 5.0f;
-float camX = -30, camY = 30, camZ = 20;
-float anguloX = 0.0f, anguloY = 0.0f, anguloZ = 0.0f;
-float coordX = 0, coordY = 0, coordZ = 0;
-int startX, startY, tracking = 0;
-int alpha = 0, beta = 0, r = 5;
-
-/* FRAMES PER SECOND */
-int timebase = 0, frame = 0;
-
-/* Luz */
-string tipo;
-float posX, posY, posZ;
-
 void framesPerSecond() {
 	float fps;
 	int time;
@@ -103,12 +78,12 @@ void renderScene(void)
 		
 		
 		if (j == 0) {
-			GLfloat pos[3] = { posX, posY, posZ };
+			GLfloat pos[4] = { posX, posY, posZ, 1 };
 			GLfloat amb[3] = { 0.0, 0.0, 0.0 };
 			GLfloat diff[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 			GLfloat matt[3] = { 1, 1, 1 };
 
-			glMaterialf(GL_FRONT, GL_SHININESS, 10);
+			glMaterialf(GL_FRONT, GL_SHININESS, 20);
 			glLightfv(GL_LIGHT0, GL_POSITION, pos); // posição da luz
 			glLightfv(GL_LIGHT0, GL_AMBIENT, amb); // cores da luz
 			glLightfv(GL_LIGHT0, GL_DIFFUSE, diff); // cores da luz
@@ -172,12 +147,9 @@ void renderScene(void)
 		//VBOs
 		glBindTexture(GL_TEXTURE_2D, primitivas[j].getTexID());
 		glEnable(GL_LIGHTING);
-		primitivas[j].desenhar();
+		primitivas[j].desenhar();	
 		glDisable(GL_LIGHTING);
 		glBindTexture(GL_TEXTURE_2D, 0);
-		
-		//Modo imediato
-		//primitivas[j].construir();
 		
 		glPopMatrix();
 	}
@@ -186,7 +158,6 @@ void renderScene(void)
 
 	glutSwapBuffers();
 }
-
 
 // Funções de processamento do teclado
 void resetCamara() {
@@ -290,7 +261,6 @@ void processMouseMotion(int xx, int yy)
 	camZ = rAux * cos(alphaAux * 3.14 / 180.0) * cos(betaAux * 3.14 / 180.0);
 	camY = rAux * sin(betaAux * 3.14 / 180.0);
 }
-
 
 // Função de leitura do ficheiro com os pontos:
 void readFile(string filename)
@@ -474,9 +444,11 @@ void parseGrupo(XMLElement* grupo, Transformacao transf, char parent){
 	}
 
 	//Calculo da escala em relaçao ao pai
-	es.setX(es.getX() * transf.getEscala().getX());
-	es.setY(es.getY() * transf.getEscala().getY());
-	es.setZ(es.getZ() * transf.getEscala().getZ());
+	if (parent == 'F'){
+		es.setX(es.getX() * transf.getEscala().getX());
+		es.setY(es.getY() * transf.getEscala().getY());
+		es.setZ(es.getZ() * transf.getEscala().getZ());
+	}
 	trans = Transformacao::Transformacao(tr, ro, es);
 		
 	//para o mesmo grupo, quais os modelos que recebem as transformações
@@ -579,11 +551,8 @@ void initGL() {
 
 	// alguns settings para OpenGL
 	glPolygonMode(GL_FRONT, GL_FILL);
-	//glEnable(GL_DEPTH_TEST);
-	//glEnable(GL_CULL_FACE);
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_DEPTH_TEST);
-	//glEnable(GL_CULL_FACE);
 	glEnable(GL_LIGHT0);
 	glEnable(GL_TEXTURE_2D);
 

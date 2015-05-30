@@ -27,8 +27,8 @@ class Primitiva{
 	vector<Ponto> normais;
 	vector<Ponto> texturas;
 	Transformacao transformacao;
-	GLuint buffers[3];
 	//VBOs
+	GLuint buffers[3];
 	float *v; //Pontos
 	float *n; //Normais
 	float *tex; //Texturas

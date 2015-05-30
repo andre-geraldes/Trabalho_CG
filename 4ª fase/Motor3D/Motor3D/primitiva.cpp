@@ -87,9 +87,10 @@ void Primitiva::desenhar() {
 }
 
 void Primitiva::criarTextura(){
+	string path = "texturas/" + textura;
 	ilGenImages(1, &t);
 	ilBindImage(t);
-	ilLoadImage((ILstring)textura.c_str());
+	ilLoadImage((ILstring)path.c_str());
 	tw = ilGetInteger(IL_IMAGE_WIDTH);
 	th = ilGetInteger(IL_IMAGE_HEIGHT);
 	ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
